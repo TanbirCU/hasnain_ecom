@@ -1,26 +1,39 @@
 @extends('dashboard.master')
 
-@section('title', 'Add Category')
+@section('title', 'Add Sub Category')
 
 @section('content')
    <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Add New Category</h4>
-                <p class="">Here You Will Add New Category.</p>
+                <h4 class="card-title">Add Sub Category</h4>
+                <p class="">Here You Will Add New Sub Category.</p>
 
-                <form id="categoryAdd" action="{{ route('admin.category.store') }}" method="post" enctype="multipart/form-data" class="mt-5">
+                <form id="subCategoryAdd" action="{{ route('admin.sub_category.store') }}" method="post" enctype="multipart/form-data" class="mt-5">
                     @csrf
                     <div class="row justify-content-center">
                         <div class="col-md-12">
+                             <div class="form-group row">
+                                <label for="example-text-input" class="col-md-2 col-form-label">Category Name</label>
+                                <div class="col-md-10">
+                                    <select name="category_id" class="form-control select2" id="">
+                                        <option value="" selected disabled>Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-md-2 col-form-label">Category Name</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Sub Category Name</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="text" name="name" value="" id="example-text-input">
                                 </div>
                             </div>
+
+
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Status</label>
                                 <div class="col-md-10">
@@ -41,7 +54,7 @@
                             <div class="row mb-3 align-items-center mt-3">
                                 <div class="col-md-2 text-md-end"></div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary">Add Category</button>
+                                    <button type="submit" class="btn btn-primary">Add Sub Category</button>
                                 </div>
                             </div>
 
@@ -55,17 +68,20 @@
 </div><!-- Row end -->
 @endsection
 @push('js')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <script>
+         $('.select2').select2({
+            placeholder: "Select Category",
+            allowClear: true
+        });
 
        $(document).ready(function () {
-            ajaxFormSubmitJQ('#categoryAdd', {
-                url: "{{ route('admin.category.store') }}",
+            ajaxFormSubmitJQ('#subCategoryAdd', {
+                url: "{{ route('admin.sub_category.store') }}",
                 method: 'POST',
                 onSuccess: function (response) {
-                    window.location.href = "{{ route('admin.category.index') }}";
-                    toastr.success(response.message || 'Category added successfully!');
+                    window.location.href = "{{ route('admin.sub_category.index') }}";
+                    toastr.success(response.message || 'Sub Category added successfully!');
                 }
             });
         });

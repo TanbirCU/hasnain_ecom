@@ -96,8 +96,8 @@
                         {{-- @if(auth()->guard('admin')->check())
                             <div class="d-inline-block mr-2 mt-3">
                                 <a href="{{ route('admin.database.download') }}" class="btn btn-success d-inline-flex align-items-center">
-                                    <i class="bx bx-data font-size-16 me-2 "></i> Database Download 
-                                </a>    
+                                    <i class="bx bx-data font-size-16 me-2 "></i> Database Download
+                                </a>
                             </div>
                         @endif --}}
                         <div class="d-inline-block mt-3">
@@ -160,9 +160,9 @@
                         <span style="color:hsl(53, 96.30%, 68.60%) !important; font-size:16px">Your Details</span>
                     </a>
                 </li>
-           
-                
-                
+
+
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-address-book"></i>
@@ -179,11 +179,11 @@
                         <span>Sub category</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">Add</a></li>
-                        <li><a href="">List</a></li>
+                        <li><a href="{{ route('admin.sub_category.create') }}">Add</a></li>
+                        <li><a href="{{ route('admin.sub_category.index') }}">List</a></li>
                     </ul>
                 </li>
-              
+
 
             </ul>
         </div>
@@ -233,7 +233,7 @@
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
-       
+
         @include('dashboard.layouts.js')
 
 
