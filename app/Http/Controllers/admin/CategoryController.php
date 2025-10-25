@@ -45,7 +45,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->status = $request->status;
         $category->save();
-        return response()->json(['success' => 'Category created successfully.'], 201);
+        return response()->json(['message' => 'Category created successfully.'], 201);
         // return redirect()->route('admin.category.index')->with('success','Category created successfully.');
     }
 
@@ -89,7 +89,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->status = $request->status;
         $category->save();
-        return response()->json(['success' => 'Category updated successfully.'], 200);
+        return response()->json(['message' => 'Category updated successfully.'], 200);
     }
 
     /**
@@ -102,6 +102,6 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect()->route('admin.category.index')->with('success','Category deleted successfully.');
+        return redirect()->route('admin.category.index')->with('message','Category deleted successfully.');
     }
 }

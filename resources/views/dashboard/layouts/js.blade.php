@@ -42,7 +42,7 @@
         "closeButton": true,
         "progressBar": true,
         "positionClass": "toast-top-right",
-        "timeOut": "3500",
+        "timeOut": "5000",
         "extendedTimeOut": "1000",
         "showEasing": "swing",
         "hideEasing": "linear",
@@ -156,11 +156,11 @@
                     }
                 },
                 success: function (response) {
-                    
+
                    if (typeof options.onSuccess === 'function') {
                         options.onSuccess(response, $form);
                     }
-                    
+
                 },
                 error: function (xhr) {
                     if (typeof options.onError === 'function') {
