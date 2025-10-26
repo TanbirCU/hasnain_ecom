@@ -3,6 +3,9 @@
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\SubCategoryController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\UnitController;
+use App\Http\Controllers\admin\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,3 +32,6 @@ Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('admin
 // category Routes
 Route::resource('/admin/category',CategoryController::class)->names('admin.category');
 Route::resource('/admin/sub-category',SubCategoryController::class)->names('admin.sub_category');
+Route::resource('/admin/product',ProductController::class)->names('admin.product');
+Route::resource('/admin/unit',UnitController::class)->names('admin.unit');
+Route::resource('/admin/supplier',SupplierController::class)->names('admin.supplier');

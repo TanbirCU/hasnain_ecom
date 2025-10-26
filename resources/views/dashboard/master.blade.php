@@ -183,6 +183,36 @@
                         <li><a href="{{ route('admin.sub_category.index') }}">List</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-address-card"></i>
+                        <span>Unit</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('admin.unit.create') }}">Add</a></li>
+                        <li><a href="{{ route('admin.unit.index') }}">List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-address-card"></i>
+                        <span>Supplier</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('admin.supplier.create') }}">Add</a></li>
+                        <li><a href="{{ route('admin.supplier.index') }}">List</a></li>
+                    </ul>
+                </li>
+                {{-- <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-address-card"></i>
+                        <span>Product</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="">Add</a></li>
+                        <li><a href="">List</a></li>
+                    </ul>
+                </li> --}}
 
 
             </ul>
