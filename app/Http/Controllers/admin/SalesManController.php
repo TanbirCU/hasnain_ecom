@@ -26,7 +26,7 @@ class SalesManController extends Controller
      */
     public function create()
     {
-        return view('dashboard.sales_man.create');
+        return view('dashboard.sales_man.add');
     }
 
     /**

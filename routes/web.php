@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\admin\SupplierController;
+use App\Http\Controllers\admin\SalesManController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,3 +36,4 @@ Route::resource('/admin/sub-category',SubCategoryController::class)->names('admi
 Route::resource('/admin/product',ProductController::class)->names('admin.product');
 Route::resource('/admin/unit',UnitController::class)->names('admin.unit');
 Route::resource('/admin/supplier',SupplierController::class)->names('admin.supplier');
+Route::resource('/admin/sales-man',SalesManController::class)->names('admin.sales_man');
