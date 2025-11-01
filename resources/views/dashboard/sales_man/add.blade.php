@@ -67,7 +67,7 @@
                             <div class="row mb-3 align-items-center mt-3">
                                 <div class="col-md-2 text-md-end"></div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary">Add Supplier</button>
+                                    <button type="submit" class="btn btn-primary">Add Salesman</button>
                                 </div>
                             </div>
 
