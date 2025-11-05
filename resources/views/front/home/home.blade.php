@@ -1,6 +1,6 @@
 @extends('front/master/master')
 @section('title')
-    Sole Bazer | Home Page
+    Home Page | Sole Bazer
 
 @endsection
 
@@ -17,7 +17,7 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item position-relative active" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-1.jpg" style="object-fit: cover;">
+                            <img class="position-absolute w-100 h-100" src="{{ asset('/assets/front/img/carousel-1.jpg') }}" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Men Fashion</h1>
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-2.jpg" style="object-fit: cover;">
+                            <img class="position-absolute w-100 h-100" src="{{ asset('/assets/front/img/carousel-2.jpg') }}" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Women Fashion</h1>
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-3.jpg" style="object-fit: cover;">
+                            <img class="position-absolute w-100 h-100" src="{{ asset('/assets/front/img/carousel-3.jpg') }}" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Kids Fashion</h1>
@@ -112,7 +112,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-1.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -125,7 +125,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-2.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-2.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -138,7 +138,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-3.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -151,7 +151,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-4.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -164,7 +164,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-4.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -177,7 +177,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-3.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -190,7 +190,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-2.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-2.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -203,7 +203,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-1.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -216,7 +216,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-2.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-2.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -229,7 +229,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-1.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -242,7 +242,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-4.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>
@@ -255,7 +255,7 @@
                 <a class="text-decoration-none" href="">
                     <div class="cat-item img-zoom d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
+                            <img class="img-fluid" src="{{ asset('/assets/front/img/cat-3.jpg') }}" alt="">
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>Category Name</h6>

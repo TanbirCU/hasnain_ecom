@@ -226,8 +226,8 @@
                 <p class="mb-md-0 text-center text-md-left text-secondary">
                     &copy; <a class="text-primary" href="#">Domain</a>. All Rights Reserved. Designed
                     by
-                    <a class="text-primary" href="https://htmlcodex.com">HTML Codex</a>
-                    <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    <a class="text-primary" href="https://htmlcodex.com">Tanvir Ahmed</a>
+                    <br>Distributed By: <a href="https://themewagon.com" target="_blank">Tanvir</a>
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
