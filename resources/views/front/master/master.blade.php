@@ -21,7 +21,7 @@
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="d-inline-flex align-items-center h-100">
                     <a class="text-body mr-3" href="">About</a>
-                    <a class="text-body mr-3" href="">Contact</a>
+                    <a class="text-body mr-3" href="{{ route('contact') }}">Contact</a>
                     <a class="text-body mr-3" href="">Help</a>
                     <a class="text-body mr-3" href="">FAQs</a>
                 </div>
@@ -143,7 +143,7 @@
                                     <a href="checkout.html" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="" class="btn px-0">
@@ -185,7 +185,7 @@
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-secondary" href="{{ route('contact') }}"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
@@ -196,7 +196,7 @@
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                             <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-secondary" href="{{ route('contact') }}"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
