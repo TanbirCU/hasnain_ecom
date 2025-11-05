@@ -22,6 +22,21 @@
                                     <input class="form-control" type="text" name="name" value="{{ $category->name }}" id="example-text-input">
                                 </div>
                             </div>
+                              <div class="form-group row">
+                                    <label for="category_image" class="col-md-2 col-form-label">Category Image</label>
+                                    <div class="col-md-10">
+                                        <input type="file" name="category_image" id="category_image" class="form-control" accept="image/*">
+
+                                        <!-- Preview current or selected image -->
+                                        <div id="preview_category" class="mt-3">
+                                            @if($category->category_image)
+                                                <img src="{{ asset($category->category_image) }}" 
+                                                    alt="Category Image" 
+                                                    class="preview-img" style="max-width: 200px; border-radius: 10px; box-shadow: 0 4 10px rgba(0,0,0,0.2); border: 1px solid #ddd; padding: 5px;">
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Status</label>
                                 <div class="col-md-10">
@@ -70,5 +85,42 @@
                 }
             });
         });
+       document.getElementById('category_image').addEventListener('change', function() {
+            const previewContainer = document.getElementById('preview_category');
+            previewContainer.innerHTML = '';
+
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-img';
+                    img.style.width = '120px';
+                    img.style.height = '120px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '8px';
+                    img.style.border = '1px solid #ddd';
+                    img.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+                    previewContainer.appendChild(img);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
     </script>
+
 @endpush
+@section('css')
+    <style>
+        .preview-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+@endsection
+
+

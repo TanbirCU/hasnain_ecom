@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\admin\SupplierController;
 use App\Http\Controllers\admin\SalesManController;
+use App\Http\Controllers\front\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/',[HomeController::class,'home'])->name('home');
+
 
 
 

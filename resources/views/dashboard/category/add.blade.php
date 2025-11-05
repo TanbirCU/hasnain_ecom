@@ -22,6 +22,21 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="category_image" class="col-md-2 col-form-label">Category Image</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="file" name="category_image" id="category_image" accept="image/*">
+                                    
+                                    <!-- Image Preview -->
+                                    <div id="imagePreview" class="mt-3" style="display: none;">
+                                        <img id="previewImg" src="" alt="Image Preview" 
+                                            style="max-width: 200px; border-radius: 10px; box-shadow: 0 4 10px rgba(0,0,0,0.2); border: 1px solid #ddd; padding: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Status</label>
                                 <div class="col-md-10">
                                      <div class="custom-control custom-radio custom-control-inline mb-3">
@@ -69,5 +84,25 @@
                 }
             });
         });
+
+       
+        // Preview image when selected
+        document.getElementById('category_image').addEventListener('change', function(event) {
+            let input = event.target;
+            let previewDiv = document.getElementById('imagePreview');
+            let previewImg = document.getElementById('previewImg');
+            
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewDiv.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewDiv.style.display = 'none';
+            }
+        });
+                          
     </script>
 @endpush

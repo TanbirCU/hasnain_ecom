@@ -14,6 +14,7 @@
                             <tr>
                                 <th>Serial</th>
                                 <th>Name</th>
+                                <th>Image</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -24,6 +25,16 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->name }}</td>
+                                    <td>
+                                        @if(!empty($category->category_image))
+                                            <img src="{{ asset($category->category_image) }}" 
+                                                alt="Category Image" 
+                                                width="80" height="80"
+                                                style="object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid #ddd;">
+                                        @else
+                                            <span class="text-muted">No Image</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $category->status == 1 ? 'Active' : 'Inactive' }}</td>
                                     
                                     <td>
