@@ -21,8 +21,7 @@ class CreateProductsTable extends Migration
             $table->decimal('purchase_price', 8, 2);
             $table->decimal('selling_price', 8, 2);
             $table->integer('stock')->default(0);
-            $table->integer('at_least_buy')->default(1);
-            $table->string('image')->nullable();
+            $table->integer('min_order_quantity');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
             // $table->foreignId('unit_id')->constrained()->onDelete('cascade');

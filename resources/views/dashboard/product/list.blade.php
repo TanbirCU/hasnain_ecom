@@ -1,14 +1,14 @@
 @extends('dashboard.master')
 
-@section('title', 'Sub Category List')
+@section('title', 'Product List')
 
 @section('content')
    <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Sub Category List</h4>
-                <p class="">Here You Will See Sub Category List.</p>
+                <h4 class="card-title">Product List</h4>
+                <p class="">Here You Will See Product List.</p>
                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
@@ -21,7 +21,7 @@
                         </thead>
 
                         <tbody>
-                            @forelse($sub_categories as $sub_category)
+                            {{-- @forelse($sub_categories as $sub_category)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $sub_category->name }}</td>
@@ -42,7 +42,7 @@
                                 <tr>
                                     <td colspan="3" class="text-center">Data not found</td>
                                 </tr>
-                            @endforelse
+                            @endforelse --}}
 
 
                         </tbody>

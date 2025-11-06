@@ -31,11 +31,15 @@ Route::get('/contact',[HomeController::class,'contact'])->name('contact');
 
 
 // Admin Dashboard Routes
-Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
-// category Routes
-Route::resource('/admin/category',CategoryController::class)->names('admin.category');
-Route::resource('/admin/sub-category',SubCategoryController::class)->names('admin.sub_category');
-Route::resource('/admin/product',ProductController::class)->names('admin.product');
-Route::resource('/admin/unit',UnitController::class)->names('admin.unit');
-Route::resource('/admin/supplier',SupplierController::class)->names('admin.supplier');
-Route::resource('/admin/sales-man',SalesManController::class)->names('admin.sales_man');
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Resource routes
+    Route::resource('/category', CategoryController::class)->names('category');
+    Route::resource('/sub-category', SubCategoryController::class)->names('sub_category');
+    Route::resource('/product', ProductController::class)->names('product');
+    Route::resource('/unit', UnitController::class)->names('unit');
+    Route::resource('/supplier', SupplierController::class)->names('supplier');
+    Route::resource('/sales-man', SalesManController::class)->names('sales_man');
+});

@@ -213,16 +213,16 @@
                         <li><a href="{{ route('admin.sales_man.index') }}">List</a></li>
                     </ul>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-address-card"></i>
                         <span>Product</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">Add</a></li>
-                        <li><a href="">List</a></li>
+                        <li><a href="{{ route('admin.product.create') }}">Add</a></li>
+                        <li><a href="{{ route('admin.product.index') }}">List</a></li>
                     </ul>
-                </li> --}}
+                </li>
 
 
             </ul>

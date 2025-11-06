@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Models\Unit;
 
 class ProductController extends Controller
 {
@@ -30,7 +31,8 @@ class ProductController extends Controller
     {
         $data['categories'] = Category::all();
         $data['sub_categories'] = SubCategory::all();
-        return view('dashboard.product.create', $data);
+        $data['units'] = Unit::all();
+        return view('dashboard.product.add', $data);
     }
 
     /**
