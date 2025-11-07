@@ -33,7 +33,7 @@
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email"
+                            <input type="mobile" class="form-control" id="mobile" placeholder="Your Mobile Number"
                                 required="required" data-validation-required-message="Please enter your email" />
                             <p class="help-block text-danger"></p>
                         </div>
@@ -62,7 +62,7 @@
                     frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                 </div>
                 <div class="bg-light p-30 mb-3">
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, Dhaka, Bangladesh</p>
                     <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
                     <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
                 </div>
@@ -70,6 +70,6 @@
         </div>
     </div>
     <!-- Contact End -->
-   
+
 
 @endsection

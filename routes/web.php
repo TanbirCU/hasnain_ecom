@@ -2,13 +2,15 @@
 
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\SubCategoryController;
+use App\Http\Controllers\admin\ImageUploadController;
 use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\admin\UnitController;
-use App\Http\Controllers\admin\SupplierController;
 use App\Http\Controllers\admin\SalesManController;
+use App\Http\Controllers\admin\SubCategoryController;
+use App\Http\Controllers\admin\SupplierController;
+use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\front\HomeController;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -32,7 +34,10 @@ Route::get('/contact',[HomeController::class,'contact'])->name('contact');
 
 // Admin Dashboard Routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    
+    // image upload
+    Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('upload_image');
+
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Resource routes
