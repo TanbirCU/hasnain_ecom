@@ -111,7 +111,7 @@
 {{-- select 2 --}}
 <script src="{{asset('/')}}assets/admin/libs/select2/js/select2.min.js"></script>
 {{-- dropzone --}}
-<script src="{{asset('/')}}assets/libs/dropzone/min/dropzone.min.js"></script>
+{{-- <script src="{{asset('/')}}assets/libs/dropzone/min/dropzone.min.js"></script> --}}
 
 
 {{-- select 2 --}}
