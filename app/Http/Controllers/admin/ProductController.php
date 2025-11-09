@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Unit;
+use App\Models\Size;
+use App\Models\Color;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
 
@@ -34,6 +36,8 @@ class ProductController extends Controller
         $data['categories'] = Category::all();
         $data['sub_categories'] = SubCategory::all();
         $data['units'] = Unit::all();
+        $data['sizes'] = Size::all();
+        $data['colors'] = Color::all();
         return view('dashboard.product.add', $data);
     }
 

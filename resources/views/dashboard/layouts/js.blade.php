@@ -109,6 +109,8 @@
 <script src="{{asset('/')}}assets/admin/libs/summernote/summernote-bs4.min.js"></script>
 {{-- select 2 --}}
 <script src="{{asset('/')}}assets/admin/libs/select2/js/select2.min.js"></script>
+        {{-- <script src="assets/js/pages/form-advanced.init.js"></script> --}}
+
 {{-- dropzone --}}
 <script src="{{asset('/')}}assets/admin/libs/dropzone/min/dropzone.min.js"></script>
 
