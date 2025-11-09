@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Unit;
+use App\Models\ProductImage;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -43,29 +45,87 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // ✅ Validate
         $request->validate([
-            'name' => 'required|string|max:255',
-            'small_description' => 'required|string|unique:products,small_description',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'image' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'required|exists:sub_categories,id',
+            'sub_category_id' => 'nullable|exists:sub_categories,id',
+            'name' => 'required|string|max:255',
+            'small_description' => 'nullable|string',
+            'unit_id' => 'required|exists:units,id',
+            'purchase_price' => 'required|numeric|min:0',
+            'selling_price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'min_order_quantity' => 'required|integer|min:1',
+            'description' => 'nullable|string',
+            'status' => 'required|in:0,1',
+            'images.*.*' => 'image|mimes:jpg,jpeg,png|max:5120' 
         ]);
-        $product = new Product();
-        $product->name = $request->name;
-        $product->small_description = $request->small_description;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
-        $product->image = $request->image;
-        $product->category_id = $request->category_id;
-        $product->sub_category_id = $request->sub_category_id;
-        $product->save();
 
-        return redirect()->route('admin.product.index')->with('message', 'Product created successfully.');
+        DB::beginTransaction();
+
+        try {
+            // ✅ 1. Save product
+            $product = Product::create([
+                'category_id'       => $request->category_id,
+                'sub_category_id'   => $request->sub_category_id,
+                'name'              => $request->name,
+                'small_description' => $request->small_description,
+                'unit_id'           => $request->unit_id,
+                'stock'             => $request->stock,
+                'min_order_quantity' => $request->min_order_quantity,
+                'purchase_price'    => $request->purchase_price,
+                'selling_price'     => $request->selling_price,
+                'description'        => $request->description,
+                'status'             => $request->status,
+            ]);
+
+            // ✅ 2. Save images
+            if ($request->has('images')) {
+                foreach ($request->images as $imageGroup) {
+                    foreach ($imageGroup as $image) {
+                        if ($image instanceof \Illuminate\Http\UploadedFile) {
+
+                            // Create folder if it doesn't exist
+                            $destinationPath = public_path('assets/admin/project/product_image');
+                            if (!file_exists($destinationPath)) {
+                                mkdir($destinationPath, 0755, true); // recursive creation
+                            }
+
+                            // Generate unique filename
+                            $filename = time() . '_' . $image->getClientOriginalName();
+
+                            // Move file to the custom folder
+                            $image->move($destinationPath, $filename);
+
+                            // Store relative path in DB
+                            $imagePath = 'assets/admin/project/product_image/' . $filename;
+
+                            ProductImage::create([
+                                'product_id' => $product->id,
+                                'image_path' => $imagePath,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product added successfully!'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
 
     /**
      * Display the specified resource.

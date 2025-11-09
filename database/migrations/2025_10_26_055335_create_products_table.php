@@ -24,7 +24,8 @@ class CreateProductsTable extends Migration
             $table->integer('min_order_quantity');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
-            // $table->foreignId('unit_id')->constrained()->onDelete('cascade');
+            $table->foreignId('unit_id')->constrained()->onDelete('cascade');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

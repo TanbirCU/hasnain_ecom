@@ -18,13 +18,9 @@
  <!-- Summernote css -->
  <link href="{{ asset('/') }}assets/admin/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
   <!-- Summernote css -->
-  {{-- <link href="assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" /> --}}
 
  {{-- dropzone start --}}
- {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" rel="stylesheet"> --}}
-{{-- <link href="{{asset('/')}}assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
-
-
+<link href="{{asset('/')}}assets/admin/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
  {{-- dropzone end --}}
 
  {{-- select2 --}}

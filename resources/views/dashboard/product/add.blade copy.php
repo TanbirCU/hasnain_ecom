@@ -3,19 +3,19 @@
 @section('title', 'Add Product')
 
 @section('content')
-<div class="row justify-content-center">
+   <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Add Product</h4>
                 <p class="">Here You Will Add New Product.</p>
 
-                <form id="ProductAdd" action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data" class="mt-5">
+                <form id="ProductAdd" action="{{ route('admin.product.store') }}" method="post" enctype="multipart/form-data" class="mt-5">
                     @csrf
                     <div class="row justify-content-center">
                         <div class="col-md-12">
 
-                            <!-- Category -->
+                           <!-- Category -->
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Category Name</label>
                                 <div class="col-md-10">
@@ -43,27 +43,25 @@
                                 </div>
                             </div>
 
-                            <!-- Product Name -->
+                            <!-- Rest of your form fields remain the same -->
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Product Name</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Product Name</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" type="text" name="name">
+                                    <input class="form-control" type="text" name="name" value="" id="example-text-input">
                                 </div>
                             </div>
 
-                            <!-- Small Description -->
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Small Description</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Small Description</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" type="text" name="small_description">
+                                    <input class="form-control h-100" type="text" name="small_description" value="" id="example-text-input">
                                 </div>
                             </div>
 
-                            <!-- Unit -->
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Unit</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Unit</label>
                                 <div class="col-md-10">
-                                    <select name="unit_id" class="form-control select2">
+                                    <select name="unit_id" class="form-control select2" id="">
                                         <option value="" selected disabled>Unit</option>
                                         @foreach ($units as $unit)
                                             <option value="{{ $unit->id }}">{{ $unit->name }}</option>
@@ -72,44 +70,28 @@
                                 </div>
                             </div>
 
-                            <!-- Stock -->
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Purchase Price</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Stock</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" type="number" name="purchase_price">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Selling Price</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="number" name="selling_price">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Stock</label>
-                                <div class="col-md-10">
-                                    <input class="form-control" type="number" name="stock">
+                                    <input class="form-control" type="number" name="stock" value="" id="example-text-input">
                                 </div>
                             </div>
 
-                            <!-- MOQ -->
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">MOQ</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">MOQ</label>
                                 <div class="col-md-10">
-                                    <input class="form-control" type="number" name="min_order_quantity">
+                                    <input class="form-control" type="number" name="min_order_quantity" value="" id="example-text-input">
                                 </div>
                             </div>
 
-                            <!-- Description -->
                             <div class="form-group row mb-4">
-                                <label class="col-form-label col-lg-2">Description</label>
+                                <label class="col-form-label col-lg-2">Task Description</label>
                                 <div class="col-lg-10">
                                     <textarea id="summernote" name="description" class="form-control"></textarea>
                                 </div>
                             </div>
 
-                            <!-- Product Images -->
-                            <div class="form-group row mb-4">
+                           <div class="form-group row mb-4">
                                 <label class="col-form-label col-lg-2">Product Images</label>
                                 <div class="col-lg-10">
                                     <div id="image-preview-dropzone" class="dropzone">
@@ -123,11 +105,10 @@
                                 </div>
                             </div>
 
-                            <!-- Status -->
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Status</label>
                                 <div class="col-md-10">
-                                    <div class="custom-control custom-radio custom-control-inline mb-3">
+                                     <div class="custom-control custom-radio custom-control-inline mb-3">
                                         <input type="radio" id="statusActive" name="status" value="1" class="custom-control-input" checked>
                                         <label class="custom-control-label" for="statusActive">Active</label>
                                     </div>
@@ -138,33 +119,44 @@
                                 </div>
                             </div>
 
-                            <!-- Submit -->
+                            {{-- Submit Button --}}
                             <div class="row mb-3 align-items-center mt-3">
                                 <div class="col-md-2 text-md-end"></div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary" id="submitProduct">Add Product</button>
+                                    <button type="submit" class="btn btn-primary">Add Product</button>
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                        </div><!-- Col end -->
+                    </div><!-- Row end -->
+                </form><!-- Form end -->
+            </div><!-- Card body end -->
+        </div><!-- Card end -->
+    </div><!-- Col end -->
+</div><!-- Row end -->
 @endsection
 
+{{-- @push('css') --}}
 
+<!-- Dropzone CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" rel="stylesheet">
+{{-- @endpush --}}
+<!-- Dropzone JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 @push('js')
+
+
+
 <script>
-Dropzone.autoDiscover = false;
+    $(document).ready(function () {
+        // Initialize Select2
+        $('.select2').select2({
+            width: '100%',
+            placeholder: 'Select an option',
+            allowClear: true
+        });
 
-$(document).ready(function () {
-
-    // Initialize Select2
-    $('.select2').select2({ width: '100%', placeholder: 'Select an option', allowClear: true });
-     // Store original subcategory options
+        // Store original subcategory options
         const originalSubCategories = $('#sub_category_id option[data-category]').clone();
 
         // Category change event
@@ -217,61 +209,98 @@ $(document).ready(function () {
             $subCategory.trigger('change');
         });
 
-    // Summernote
-    $('#summernote').summernote({
-        height: 300,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
+        // Initialize Summernote
+        $('#summernote').summernote({
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
 
-    // Initialize Dropzone
-    let myDropzone = new Dropzone("#image-preview-dropzone", {
-        url: "{{ route('admin.product.store') }}",
-        paramName: "images[]",
-        maxFilesize: 5,
-        acceptedFiles: "image/*",
-        uploadMultiple: true,
-        addRemoveLinks: true,
-        parallelUploads: 5,
-        autoProcessQueue: false,
-        dictDefaultMessage: "Drop images here or click to upload",
-        maxFiles: 4
-    });
+        // Initialize Dropzone
+        const myDropzone = new Dropzone("#image-preview-dropzone", {
+            url: "{{ route('admin.upload_image') }}", // Temporary URL, will be handled by form submission
+            paramName: "images", // The name that will be used to transfer the file
+            maxFilesize: 5, // MB
+            maxFiles: 5, // Maximum number of files
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            autoProcessQueue: false, // Important: Don't auto-upload
+            parallelUploads: 5,
+            dictDefaultMessage: "<i class='display-4 text-muted bx bxs-cloud-upload'></i><h4>Drop images here or click to upload.</h4>",
+            dictRemoveFile: "Remove",
+            init: function() {
+                this.on("addedfile", function(file) {
+                    console.log("File added: ", file.name);
+                });
 
-    // Prevent more than 4 images
-    myDropzone.on("maxfilesexceeded", function(file) {
-        this.removeFile(file);
-        toastr.error("You can upload a maximum of 4 images only.");
-    });
+                this.on("removedfile", function(file) {
+                    console.log("File removed: ", file.name);
+                });
 
-    // Submit form + images together
-    $("#submitProduct").click(function (e) {
-        e.preventDefault();
-        if (myDropzone.getQueuedFiles().length > 0) {
-            myDropzone.processQueue();
-        } else {
-            $("#ProductAdd")[0].submit();
-        }
-    });
+                this.on("error", function(file, message) {
+                    toastr.error(message);
+                });
+            }
+        });
 
-    myDropzone.on("sendingmultiple", function(file, xhr, formData) {
-        // Append other form data
-        $('#ProductAdd').serializeArray().forEach(function(field) {
-            formData.append(field.name, field.value);
+        // Handle form submission with Dropzone files
+        $('#ProductAdd').on('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            // Append all Dropzone files to formData
+            if (myDropzone.files.length > 0) {
+                myDropzone.files.forEach((file, index) => {
+                    formData.append('images[]', file);
+                });
+            }
+
+            // Submit form via AJAX
+            $.ajax({
+                url: $(form).attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    toastr.success(response.message || 'Product added successfully!');
+                    setTimeout(() => {
+                        window.location.href = "{{ route('admin.product.index') }}";
+                    }, 1500);
+                },
+                error: function(xhr) {
+                    const errors = xhr.responseJSON?.errors;
+                    if (errors) {
+                        Object.values(errors).forEach(errorArray => {
+                            errorArray.forEach(error => {
+                                toastr.error(error);
+                            });
+                        });
+                    } else {
+                        toastr.error('An error occurred while adding the product.');
+                    }
+                }
+            });
+        });
+
+        // Your existing AJAX form submission function (as fallback)
+        ajaxFormSubmitJQ('#ProductAdd', {
+            url: "{{ route('admin.product.store') }}",
+            method: 'POST',
+            onSuccess: function (response) {
+                window.location.href = "{{ route('admin.product.index') }}";
+                toastr.success(response.message || 'Product added successfully!');
+            }
         });
     });
-
-    myDropzone.on("successmultiple", function(files, response) {
-        toastr.success("Product added successfully!");
-        window.location.href = "{{ route('admin.product.index') }}";
-    });
-});
 </script>
 @endpush

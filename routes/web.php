@@ -7,8 +7,11 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SalesManController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\SupplierController;
+use App\Http\Controllers\admin\ColorController;
+use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\front\HomeController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -47,4 +50,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/unit', UnitController::class)->names('unit');
     Route::resource('/supplier', SupplierController::class)->names('supplier');
     Route::resource('/sales-man', SalesManController::class)->names('sales_man');
+    Route::resource('/colors', ColorController::class)->names('colors');
+    Route::resource('/sizes', SizeController::class)->names('sizes');
 });
