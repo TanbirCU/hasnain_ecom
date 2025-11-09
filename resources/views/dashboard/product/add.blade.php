@@ -74,7 +74,7 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Color</label>
                                 <div class="col-md-10">
-                                    <select name="color_id" class="form-control select2 select2-multiple">
+                                    <select name="color_id" class="form-control select2 select2-multiple" multiple="multiple">
                                         <option value="" selected disabled>Color</option>
                                         @foreach ($colors as $color)
                                             <option value="{{ $color->id }}">{{ $color->name }}</option>

@@ -24,14 +24,15 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $color->name }}</td>
+                                    <td>{{ $color->code }}</td>
                                     <td>{{ $color->status == 1 ? 'Active' : 'Inactive' }}</td>
                                     
                                     <td>
-                                        <a href="{{ route('admin.color.edit',$color->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                        <form id="deleteForm_{{ $color->id }}" action="{{ route('admin.color.destroy', $color->id) }}" method="POST" style="display: inline;">
+                                        <a href="{{ route('admin.colors.edit',$color->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <form id="deleteForm_{{ $color->id }}" action="{{ route('admin.colors.destroy', $color->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $category->id }})"><i class="fas fa-trash"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $color->id }})"><i class="fas fa-trash"></i></button>
                                         </form>
                                     </td>
                                     

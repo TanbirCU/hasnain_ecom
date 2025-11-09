@@ -33,11 +33,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $data['categories'] = Category::all();
-        $data['sub_categories'] = SubCategory::all();
-        $data['units'] = Unit::all();
-        $data['sizes'] = Size::all();
-        $data['colors'] = Color::all();
+        $data['categories'] = Category::where('status', 1)->get();
+        $data['sub_categories'] = SubCategory::where('status', 1)->get();
+        $data['units'] = Unit::where('status', 1)->get();
+        $data['sizes'] = Size::where('status', 1)->get();
+        $data['colors'] = Color::where('status', 1)->get();
         return view('dashboard.product.add', $data);
     }
 

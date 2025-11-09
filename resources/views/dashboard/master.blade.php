@@ -196,6 +196,26 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-address-card"></i>
+                        <span>Size</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('admin.sizes.create') }}">Add</a></li>
+                        <li><a href="{{ route('admin.sizes.index') }}">List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-address-card"></i>
+                        <span>Color</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('admin.colors.create') }}">Add</a></li>
+                        <li><a href="{{ route('admin.colors.index') }}">List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-address-card"></i>
                         <span>Supplier</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">

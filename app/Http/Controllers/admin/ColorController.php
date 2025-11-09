@@ -16,7 +16,7 @@ class ColorController extends Controller
     public function index()
     {
         $data['colors'] = Color::all();
-        return view('dashboard.color.index', $data);
+        return view('dashboard.color.list', $data);
     }
 
     /**
@@ -37,11 +37,19 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
-        $color = new Color();
+        request()->validate([
+            'name' => 'required|string|max:255|unique:colors,name',
+            'status' => 'required|in:0,1',
+        ]);
+       $color = new Color();
         $color->name = $request->name;
-        $color->code = 'C00' . $color->id;
         $color->status = $request->status;
+        $color->code = 'TEMP'; // placeholder
         $color->save();
+
+        $color->code = 'C00' . $color->id;
+        $color->save();
+
 
         return redirect()->route('admin.colors.index');
     }
@@ -77,14 +85,21 @@ class ColorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $color = Color::findOrFail($id);
-        $color->name = $request->name;
-        $color->status = $request->status;
-        $color->save();
+        {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'status' => 'required|boolean',
+            ]);
 
-        return redirect()->route('admin.colors.index');
-    }
+            $color = Color::findOrFail($id);
+            $color->name = $request->name;
+            $color->status = $request->status;
+            $color->save();
+
+            return redirect()->route('admin.colors.index')
+                            ->with('success', 'Color updated successfully.');
+        }
+
 
     /**
      * Remove the specified resource from storage.
