@@ -49,7 +49,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // ✅ Validate
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
@@ -62,13 +61,13 @@ class ProductController extends Controller
             'min_order_quantity' => 'required|integer|min:1',
             'description' => 'nullable|string',
             'status' => 'required|in:0,1',
-            'images.*.*' => 'image|mimes:jpg,jpeg,png|max:5120' 
+            'images.*.*' => 'image|mimes:jpg,jpeg,png|max:5120'
         ]);
 
         DB::beginTransaction();
 
         try {
-            // ✅ 1. Save product
+
             $product = Product::create([
                 'category_id'       => $request->category_id,
                 'sub_category_id'   => $request->sub_category_id,
@@ -82,8 +81,14 @@ class ProductController extends Controller
                 'description'        => $request->description,
                 'status'             => $request->status,
             ]);
+            if ($request->has('color_id')) {
+                $product->colors()->sync($request->color_id);
+            }
+            // Save multiple sizes
+            if ($request->has('size_id')) {
+                $product->sizes()->sync($request->size_id);
+            }
 
-            // ✅ 2. Save images
             if ($request->has('images')) {
                 foreach ($request->images as $imageGroup) {
                     foreach ($imageGroup as $image) {

@@ -16,7 +16,7 @@ class SizeController extends Controller
     public function index()
     {
         $data['sizes'] = Size::all();
-        return view('dashboard.size.index', $data);
+        return view('dashboard.size.list', $data);
     }
 
     /**
@@ -37,6 +37,9 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
+        request()->validate([
+            'name' => 'required|unique:sizes,name',
+        ]);
         $size = new Size();
         $size->name = $request->name;
         $size->status = $request->status;

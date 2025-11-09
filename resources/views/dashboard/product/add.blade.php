@@ -74,25 +74,25 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Color</label>
                                 <div class="col-md-10">
-                                    <select name="color_id" class="form-control select2 select2-multiple" multiple="multiple">
-                                        <option value="" selected disabled>Color</option>
+                                    <select name="color_id[]" class="form-control select2 select2-multiple" multiple="multiple">
                                         @foreach ($colors as $color)
                                             <option value="{{ $color->id }}">{{ $color->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Size</label>
                                 <div class="col-md-10">
-                                    <select name="size_id" class="form-control select2-multiple">
-                                        <option value="" selected disabled>Size</option>
+                                    <select name="size_id[]" class="form-control select2 select2-multiple" multiple="multiple">
                                         @foreach ($sizes as $size)
                                             <option value="{{ $size->id }}">{{ $size->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+
 
                             <!-- Stock -->
                             <div class="form-group row">
@@ -180,6 +180,17 @@
 
 @push('js')
 <script>
+   $('select[name="color_id[]"]').select2({
+        placeholder: "Select Color",
+        allowClear: true
+    });
+
+    $('select[name="size_id[]"]').select2({
+        placeholder: "Select Size",
+        allowClear: true
+    });
+
+
 Dropzone.autoDiscover = false;
 
 $(document).ready(function () {
