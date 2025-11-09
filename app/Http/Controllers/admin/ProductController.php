@@ -61,6 +61,11 @@ class ProductController extends Controller
             'min_order_quantity' => 'required|integer|min:1',
             'description' => 'nullable|string',
             'status' => 'required|in:0,1',
+            'color_id'=> 'nullable|array',
+            'color_id.*' => 'exists:colors,id',
+            'size_id'=> 'nullable|array',
+            'size_id.*' => 'exists:sizes,id',
+            'images' => 'nullable|array',
             'images.*.*' => 'image|mimes:jpg,jpeg,png|max:5120'
         ]);
 
