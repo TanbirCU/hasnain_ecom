@@ -1,45 +1,34 @@
 @extends('dashboard.master')
 
-@section('title', 'Category List')
+@section('title', 'Color List')
 
 @section('content')
    <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Category List</h4>
-                <p class="">Here You Will See Category List.</p>
+                <h4 class="card-title">Color List</h4>
+                <p class="">Here You Will See Color List.</p>
                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
                                 <th>Serial</th>
-                                <th>Name</th>
-                                <th>Image</th>
+                                <th>Color Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @forelse($categories as $category)
+                            @forelse($colors as $color)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>
-                                        @if(!empty($category->category_image))
-                                            <img src="{{ asset($category->category_image) }}" 
-                                                alt="Category Image" 
-                                                width="80" height="80"
-                                                style="object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid #ddd;">
-                                        @else
-                                            <span class="text-muted">No Image</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $category->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                    <td>{{ $color->name }}</td>
+                                    <td>{{ $color->status == 1 ? 'Active' : 'Inactive' }}</td>
                                     
                                     <td>
-                                        <a href="{{ route('admin.category.edit',$category->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                        <form id="deleteForm_{{ $category->id }}" action="{{ route('admin.category.destroy', $category->id) }}" method="POST" style="display: inline;">
+                                        <a href="{{ route('admin.color.edit',$color->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <form id="deleteForm_{{ $color->id }}" action="{{ route('admin.color.destroy', $color->id) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $category->id }})"><i class="fas fa-trash"></i></button>
