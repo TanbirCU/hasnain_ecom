@@ -48,4 +48,23 @@ class HomeController extends Controller
         return view('front.user.login');
 
     }
+    public function userLoginStore(Request $request)
+    {
+        // Validate the request data
+        $credentials = $request->validate([
+            'login_id' => 'required',
+            'password' => 'required|string',
+        ]);
+
+        // Attempt to log the user in
+        if (auth()->attempt(['email' => $credentials['login_id'], 'password' => $credentials['password']]) || auth()->attempt(['mobile' => $credentials['login_id'], 'password' => $credentials['password']])) {
+            // Authentication passed...
+            return redirect()->intended(route('home'))->with('success', 'Login successful!');
+        }
+
+        // Authentication failed...
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
+    }
 }

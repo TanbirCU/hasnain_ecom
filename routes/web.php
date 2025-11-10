@@ -33,6 +33,7 @@ Route::get('/contact',[HomeController::class,'contact'])->name('contact');
 Route::get('/user-registration',[HomeController::class,'userRegistration'])->name('user.registration');
 Route::post('/user-registration-store',[HomeController::class,'userRegistrationStore'])->name('user.registration_store');
 Route::get('/user-login',[HomeController::class,'userLogin'])->name('user_login');
+Route::post('/user-login-store',[HomeController::class,'userLoginStore'])->name('user.login_store');
 
 
 
