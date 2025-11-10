@@ -144,6 +144,8 @@
                                 </div>
                             </div>
                             <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
+                            <a href="{{ route('user.registration') }}" class="nav-item nav-link">Registration</a>
+                            <a href="{{ route('user_login') }}" class="nav-item nav-link">Login</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <a href="" class="btn px-0">
