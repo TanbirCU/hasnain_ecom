@@ -4,12 +4,23 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
     public function home()
     {
-        return view('front.home.home');
+        $data['categories'] = Category::where('status',1)->limit(12)->get();
+        $data['products'] = Product::with(['images' => function ($q) {
+            $q->limit(1);
+        }])
+        ->where('status', 1)
+        ->orderBy('id', 'asc')
+        ->limit(8)
+        ->get(['id', 'name', 'selling_price', 'small_description']);
+
+        return view('front.home.home',$data);
 
     }
     public function contact()

@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\front\HomeController;
+use App\Http\Controllers\front\ProductShowController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::get('/user-registration',[HomeController::class,'userRegistration'])->nam
 Route::post('/user-registration-store',[HomeController::class,'userRegistrationStore'])->name('user.registration_store');
 Route::get('/user-login',[HomeController::class,'userLogin'])->name('user_login');
 Route::post('/user-login-store',[HomeController::class,'userLoginStore'])->name('user.login_store');
+Route::get('/product-details/{product_id}',[ProductShowController::class,'product_details'])->name('product_details');
 
 
 

@@ -29,4 +29,24 @@ class Product extends Model
     {
         return $this->belongsTo(SubCategory::class);
     }
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
+      // Many-to-Many: Product ↔ Color
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'product_color'); // Changed from 'product_colors'
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'product_size'); // Changed from 'product_sizes'
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }
