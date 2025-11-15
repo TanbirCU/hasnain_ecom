@@ -24,4 +24,77 @@ class ProductShowController extends Controller
 
         return view('front.product.details', compact('product'));
     }
+
+    public function add(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $id = $request->product_id;
+
+        if (!isset($cart[$id])) {
+            $cart[$id] = [
+                "product_id" => $id,
+                "qty" => $request->qty,
+                "size_id" => $request->size_id,
+                "color_id" => $request->color_id,
+            ];
+        } else {
+            $cart[$id]['qty'] += $request->qty;
+        }
+
+        session()->put('cart', $cart);
+
+        // Build cart details with product names (with ID as key)
+        $items = [];
+        foreach ($cart as $cartId => $item) {
+            $product = \App\Models\Product::find($item['product_id']);
+            $items[$cartId] = [
+                'name' => $product->name,
+                'qty'  => $item['qty'],
+            ];
+        }
+
+        return response()->json([
+            'success'     => true,
+            'message'     => 'Product added to cart successfully!',
+            'cart_count'  => count($cart),
+            'cart_items'  => $items // Changed to match updateCartDropdown format
+        ]);
+    }
+
+    public function remove(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $id = $request->product_id;
+
+        if(isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
+
+        return response()->json([
+            'success' => true,
+            'cart' => $cart,
+            'cart_count' => count($cart)
+        ]);
+    }
+    public function cartView()
+    {
+        $cart = session()->get('cart', []);
+        return view('front.cart', compact('cart'));
+    }
+
+
+
+
+    public function shop(Request $request)
+    {
+         $data['products'] = Product::whereHas('images')
+        ->with('images')
+        ->where('status', 1)
+        ->orderBy('id', 'asc')
+        ->limit(8)
+        ->get(['id', 'name', 'selling_price', 'small_description']);
+
+        return view('front.product.shop',$data);
+    }
 }

@@ -6,19 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
     public function home()
     {
         $data['categories'] = Category::where('status',1)->limit(12)->get();
-        $data['products'] = Product::with(['images' => function ($q) {
-            $q->limit(1);
-        }])
+        $data['products'] = Product::whereHas('images')
+        ->with('images')
         ->where('status', 1)
         ->orderBy('id', 'asc')
         ->limit(8)
         ->get(['id', 'name', 'selling_price', 'small_description']);
+
 
         return view('front.home.home',$data);
 
@@ -40,19 +43,61 @@ class HomeController extends Controller
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'phone'=> 'required|string|max:15',
+            'email' => 'nullable|email|unique:users,email',
+            'password' => 'required|string|min:6',
         ]);
 
         // Create a new user (assuming you have a User model)
-        $user = new \App\Models\User();
+        $user = new User();
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->email = $request->email ?? '';
         $user->password = bcrypt($request->password);
-        $user->save();
+        $user->trade_license_no = $request->trade_license_no ?? '';
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->nid = $request->nid ?? '';
+        $user->reference_no = $request->reference_no ?? '';
+        $user->status = 0;
 
-        // Redirect to a desired location with a success message
-        return redirect()->route('home')->with('success', 'Registration successful! You can now log in.');
+        if ($request->hasFile('trade_license_image')) {
+            $file = $request->file('trade_license_image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $uploadPath = public_path('assets/front/user/trade_license_image');
+
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            if (!empty($category->trade_license_image) && File::exists(public_path($category->trade_license_image))) {
+                File::delete(public_path($category->trade_license_image));
+            }
+
+            $file->move($uploadPath, $filename);
+            $user->trade_license_image = 'assets/front/user/trade_license_image/' . $filename;
+        }
+        if ($request->hasFile('shop_image')) {
+            $file = $request->file('shop_image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $uploadPath = public_path('assets/front/user/shop_image');
+
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            if (!empty($category->shop_image) && File::exists(public_path($category->shop_image))) {
+                File::delete(public_path($category->shop_image));
+            }
+
+            $file->move($uploadPath, $filename);
+            $user->shop_image = 'assets/front/user/shop_image/' . $filename;
+        }
+
+        $user->save();
+        Auth::login($user);
+        return response()->json([
+            'message' => 'Registration successful! You can now log in.',
+        ]);
     }
     public function userLogin()
     {
@@ -77,5 +122,11 @@ class HomeController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->withInput();
+    }
+
+    public function userLogout()
+    {
+        Auth::logout();
+        return redirect()->route('home')->with('success', 'You have been logged out successfully.');
     }
 }

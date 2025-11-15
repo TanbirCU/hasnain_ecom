@@ -69,11 +69,8 @@
                             <form>
                                 @foreach($product->sizes as $index => $size)
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio"
-                                            class="custom-control-input"
-                                            id="size-{{ $index }}"
-                                            name="size"
-                                            value="{{ $size->id }}">
+                                        <input type="radio" class="custom-control-input" id="size-{{ $index }}" name="size" value="{{ $size->id }}">
+
                                         <label class="custom-control-label" for="size-{{ $index }}">
                                             {{ $size->name }}
                                         </label>
@@ -90,11 +87,8 @@
                             <form>
                                 @foreach($product->colors as $index => $color)
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio"
-                                            class="custom-control-input"
-                                            id="color-{{ $index }}"
-                                            name="color"
-                                            value="{{ $color->id }}">
+                                        <input type="radio" class="custom-control-input" id="color-{{ $index }}" name="color" value="{{ $color->id }}">
+
                                         <label class="custom-control-label" for="color-{{ $index }}">
                                             {{ $color->name }}
                                         </label>
@@ -111,15 +105,21 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                            <input type="text" id="productQty"
+                                class="form-control bg-secondary border-0 text-center"
+                                value="{{ $product->min_order_quantity }}" readonly>
+
                             <div class="input-group-btn">
                                 <button class="btn btn-primary btn-plus">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                            Cart</button>
+                        <button class="btn btn-primary px-3 addToCartBtn"
+                                data-product-id="{{ $product->id }}">
+                            <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
+                        </button>
+
                     </div>
                     <div class="d-flex pt-2">
                         <strong class="text-dark mr-2">Share on:</strong>
@@ -390,6 +390,95 @@
     </div>
     <!-- Products End -->
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+        // Quantity increment
+       // Quantity increment
+            $(document).on('click', '.btn-plus', function () {
+                let input = $('#productQty');
+                let currentValue = parseInt(input.val());
+                let step = parseInt(`{{ $product->min_order_quantity }}`);
+
+                input.val(currentValue + step);
+            });
+
+            // Quantity decrement
+            $(document).on('click', '.btn-minus', function () {
+                let input = $('#productQty');
+                let currentValue = parseInt(input.val());
+                let step = parseInt(`{{ $product->min_order_quantity }}`);
+
+                if (currentValue > step) {
+                    input.val(currentValue - step);
+                }
+            });
+
+
+
+
+        // Add to cart
+        $(document).on('click', '.addToCartBtn', function (e) {
+            e.preventDefault();
+
+            let $button = $(this);
+            let product_id = $button.data('product-id');
+            let qty = $('#productQty').val();
+            let size_id = $('input[name="size"]:checked').val();
+            let color_id = $('input[name="color"]:checked').val();
+
+            $button.prop('disabled', true);
+
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: product_id,
+                    qty: qty,
+                    size_id: size_id,
+                    color_id: color_id,
+                },
+                success: function (response) {
+                    console.log('AJAX Response:', response);
+                    // if (response.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+
+
+                        // Update cart dropdown using the function
+                       updateCartDropdown(response.cart_items, response.cart_count);
+
+
+                        // Bounce animation
+                        $('.cart-count').addClass('animate__animated animate__bounce');
+                        setTimeout(() => {
+                            $('.cart-count').removeClass('animate__animated animate__bounce');
+                        }, 1000);
+                    // }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', error);
+                    swal("Error!", "Something went wrong. Please try again.", "error");
+                },
+                complete: function() {
+                    $button.prop('disabled', false);
+                }
+            });
+        });
+
+    });
+    
+    </script>
+
+@endpush
+
+
 <style>
     #product-carousel .carousel-inner {
         height: 550px; /* adjust as needed */

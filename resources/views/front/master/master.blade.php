@@ -29,12 +29,18 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                            My Account
+                        </button>
+
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+                            <a class="dropdown-item" href="{{ route('user_login') }}">Sign in</a>
+                            <a class="dropdown-item" href="{{ route('user.registration') }}">Sign up</a>
+                            <a class="dropdown-item" href="">Profile</a>
+                            <a class="dropdown-item" href="">Log Out</a>
                         </div>
                     </div>
+
                     <div class="btn-group mx-2">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -134,7 +140,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{ route('home') }}" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
+                            <a href="{{ route('shop') }}" class="nav-item nav-link">Shop</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
@@ -143,19 +149,44 @@
                                 </div>
                             </div>
                             <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
-                            <a href="{{ route('user.registration') }}" class="nav-item nav-link">Registration</a>
-                            <a href="{{ route('user_login') }}" class="nav-item nav-link">Login</a>
+                            @if(Auth::check())
+                                <a href="" class="nav-item nav-link">Orders</a>
+                                <a class="nav-item nav-link" href="{{ route('user_logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    LogOut
+                                </a>
+
+                                <form id="logout-form" action="{{ route('user_logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+
+                            @else
+                                <a href="{{ route('user.registration') }}" class="nav-item nav-link">Registration</a>
+                                <a href="{{ route('user_login') }}" class="nav-item nav-link">Login</a>
+                            @endif
+
                         </div>
-                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
-                                <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
-                            </a>
-                            <a href="" class="btn px-0 ml-3">
-                                <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
-                            </a>
+                       <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+
+                            <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" class="btn px-0 ml-3 dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fas fa-shopping-cart text-primary"></i>
+                                        <span class="badge text-secondary border border-secondary rounded-circle cart-count" style="padding-bottom: 2px;">
+                                            0
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right p-2" style="min-width: 300px;">
+                                        <ul id="cart-items-list" class="list-unstyled m-0 p-0"></ul>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="" class="btn btn-primary btn-block">View Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
+
                     </div>
                 </nav>
             </div>
@@ -244,6 +275,54 @@
 
 
     @include('front/layouts/js')
+    <script>
+        $(document).on("click", ".cart-icon", function () {
+            $(".cart-dropdown").toggle();
+        });
+        $(document).ready(function() {
+
+
+
+
+            // Remove cart item
+            $(document).on('click', '.remove-cart-item', function() {
+                let id = $(this).closest('li').data('id');
+
+                $.ajax({
+                    url: "{{ route('cart.remove') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        product_id: id
+                    },
+                    success: function(res) {
+                        if(res.success) {
+                            updateCartDropdown(res.cart, res.cart_count);
+                        }
+                    }
+                });
+            });
+
+        });
+         function updateCartDropdown(cartItems, cartCount) {
+            let $list = $('#cart-items-list');
+            $list.empty();
+
+            $.each(cartItems, function(id, item) {
+                let li = `
+                    <li class="d-flex justify-content-between align-items-center mb-2 p-2 border-bottom" data-id="${id}">
+                        <span><strong>${item.name}</strong> <span class="text-muted">x ${item.qty}</span></span>
+                        <button class="btn btn-sm btn-danger remove-cart-item">&times;</button>
+                    </li>
+                `;
+                $list.append(li);
+            });
+
+            $('.cart-count').text(cartCount);
+        }
+
+
+    </script>
 </body>
 
 </html>
