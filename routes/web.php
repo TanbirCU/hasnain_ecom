@@ -38,8 +38,8 @@ Route::get('/user-logout',[HomeController::class,'userLogout'])->name('user_logo
 Route::post('/user-login-store',[HomeController::class,'userLoginStore'])->name('user.login_store');
 Route::get('/product-details/{product_id}',[ProductShowController::class,'product_details'])->name('product_details');
 Route::post('/cart/add', [ProductShowController::class, 'add'])->name('cart.add');
-Route::get('/cart-view', [ProductShowController::class, 'cartView'])->name('cart.view');
-Route::get('/cart-remove', [ProductShowController::class, 'cart'])->name('cart.remove');
+Route::get('/cart-view', [ProductShowController::class, 'cartView'])->name('cart_view');
+Route::get('/cart-remove', [ProductShowController::class, 'remove'])->name('cart.remove');
 Route::get('/shop', [ProductShowController::class, 'shop'])->name('shop');
 
 

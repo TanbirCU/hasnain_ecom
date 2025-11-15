@@ -179,7 +179,7 @@
                                     <div class="dropdown-menu dropdown-menu-right p-2" style="min-width: 300px;">
                                         <ul id="cart-items-list" class="list-unstyled m-0 p-0"></ul>
                                         <div class="dropdown-divider"></div>
-                                        <a href="" class="btn btn-primary btn-block">View Cart</a>
+                                        <a href="{{ route('cart_view') }}" class="btn btn-primary btn-block">View Cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -280,28 +280,27 @@
             $(".cart-dropdown").toggle();
         });
         $(document).ready(function() {
-
-
-
-
-            // Remove cart item
             $(document).on('click', '.remove-cart-item', function() {
-                let id = $(this).closest('li').data('id');
+                    let id = $(this).closest('li').data('id');
 
-                $.ajax({
-                    url: "{{ route('cart.remove') }}",
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        product_id: id
-                    },
-                    success: function(res) {
-                        if(res.success) {
-                            updateCartDropdown(res.cart, res.cart_count);
+                    $.ajax({
+                        url: "{{ route('cart.remove') }}",
+                        type: "GET",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            product_id: id
+                        },
+                        success: function(res) {
+                            if(res.success) {
+                                updateCartDropdown(res.cart_items, res.cart_count);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Remove cart item error:', xhr.responseText);
                         }
-                    }
+                    });
                 });
-            });
+
 
         });
          function updateCartDropdown(cartItems, cartCount) {

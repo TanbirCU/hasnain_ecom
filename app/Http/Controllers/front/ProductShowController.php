@@ -61,7 +61,7 @@ class ProductShowController extends Controller
         ]);
     }
 
-    public function remove(Request $request)
+  public function remove(Request $request)
     {
         $cart = session()->get('cart', []);
         $id = $request->product_id;
@@ -71,16 +71,30 @@ class ProductShowController extends Controller
             session()->put('cart', $cart);
         }
 
+        // Build cart details
+        $items = [];
+        foreach ($cart as $cartId => $item) {
+            $product = \App\Models\Product::find($item['product_id']);
+            if ($product) {
+                $items[$cartId] = [
+                    'name' => $product->name,
+                    'qty'  => $item['qty'],
+                ];
+            }
+        }
+
         return response()->json([
             'success' => true,
-            'cart' => $cart,
-            'cart_count' => count($cart)
+            'cart_items' => $items,
+            'cart_count' => count($cart),
+            'message' => 'Item removed from cart'
         ]);
     }
+
     public function cartView()
     {
         $cart = session()->get('cart', []);
-        return view('front.cart', compact('cart'));
+        return view('front.cart.cart', compact('cart'));
     }
 
 
