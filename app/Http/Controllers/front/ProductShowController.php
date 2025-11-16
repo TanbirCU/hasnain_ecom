@@ -97,7 +97,79 @@ class ProductShowController extends Controller
         return view('front.cart.cart', compact('cart'));
     }
 
+    public function checkout(Request $request)
+    {
+        // Get cart items from request
+        $cartItems = json_decode($request->cart_items, true);
+        $grandTotal = $request->grand_total;
 
+        // Validate
+        if (empty($cartItems)) {
+            return redirect()->route('cart')->with('error', 'Your cart is empty!');
+        }
+
+        return view('front.checkout.checkout', compact('cartItems', 'grandTotal'));
+    }
+
+    // In ProductShowController
+    public function placeOrder(Request $request)
+    {
+        // // Validate
+        // $request->validate([
+        //     'first_name' => 'required|string|max:255',
+        //     'last_name' => 'required|string|max:255',
+        //     'email' => 'required|email',
+        //     'mobile' => 'required|string',
+        //     'address_1' => 'required|string',
+        //     'city' => 'required|string',
+        //     'state' => 'required|string',
+        //     'zip' => 'required|string',
+        //     'country' => 'required|string',
+        //     'payment_method' => 'required|string',
+        // ]);
+
+        // // Get cart items
+        // $cartItems = json_decode($request->cart_items, true);
+        // $grandTotal = $request->grand_total;
+
+        // // Create order (adjust according to your Order model)
+        // $order = new Order();
+        // $order->first_name = $request->first_name;
+        // $order->last_name = $request->last_name;
+        // $order->email = $request->email;
+        // $order->mobile = $request->mobile;
+        // $order->address_1 = $request->address_1;
+        // $order->address_2 = $request->address_2;
+        // $order->city = $request->city;
+        // $order->state = $request->state;
+        // $order->zip = $request->zip;
+        // $order->country = $request->country;
+        // $order->payment_method = $request->payment_method;
+        // $order->grand_total = $grandTotal;
+        // $order->status = 'pending';
+        // $order->save();
+
+        // // Save order items
+        // foreach ($cartItems as $item) {
+        //     OrderItem::create([
+        //         'order_id' => $order->id,
+        //         'product_id' => $item['id'],
+        //         'product_name' => $item['name'],
+        //         'quantity' => $item['quantity'],
+        //         'price' => $item['price'],
+        //         'total' => $item['total'],
+        //     ]);
+        // }
+
+        // // Clear cart from session if you're using it
+        // session()->forget('cart');
+
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Order placed successfully',
+        //     'redirect_url' => route('order.success', $order->id)
+        // ]);
+    }
 
 
     public function shop(Request $request)

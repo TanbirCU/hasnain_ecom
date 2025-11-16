@@ -40,6 +40,8 @@ Route::get('/product-details/{product_id}',[ProductShowController::class,'produc
 Route::post('/cart/add', [ProductShowController::class, 'add'])->name('cart.add');
 Route::get('/cart-view', [ProductShowController::class, 'cartView'])->name('cart_view');
 Route::get('/cart-remove', [ProductShowController::class, 'remove'])->name('cart.remove');
+Route::post('/checkout', [ProductShowController::class, 'checkout'])->name('checkout');
+Route::post('/order-place', [ProductShowController::class, 'placeOrder'])->name('order.place');
 Route::get('/shop', [ProductShowController::class, 'shop'])->name('shop');
 
 

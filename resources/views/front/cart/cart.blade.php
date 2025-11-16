@@ -223,7 +223,14 @@
             $('tbody tr[data-id]').each(function () {
                 let $row = $(this);
                 let id = $row.data('id');
-                let name = $row.find('td:nth-child(1)').text().trim();
+                
+                // Get product image
+                let imageUrl = $row.find('td:nth-child(1) img').attr('src');
+                
+                // Get product name (excluding image)
+                let fullText = $row.find('td:nth-child(1)').text().trim();
+                let name = fullText; // You may need to clean this
+                
                 let priceText = $row.find('td:nth-child(2)').text().trim();
                 let price = parseFloat(priceText.replace('ট', '').replace(/,/g, '').trim());
                 let qty = parseInt($row.find('.cart-qty').val());
@@ -233,6 +240,7 @@
                 cartItems.push({
                     id: id,
                     name: name,
+                    image: imageUrl,
                     price: price,
                     quantity: qty,
                     total: total
@@ -247,39 +255,44 @@
                 return;
             }
 
-            // Prepare data to send
-            let checkoutData = {
-                cart_items: cartItems,
-                grand_total: grandTotal,
-                _token: '{{ csrf_token() }}'
-            };
-
             // Show loading state
             let $btn = $(this);
             let originalText = $btn.html();
             $btn.html('<i class="fa fa-spinner fa-spin"></i> Processing...').prop('disabled', true);
 
-            // Send AJAX request
-            $.ajax({
-                url: "{{ route('checkout') }}",
-                type: "POST",
-                data: checkoutData,
-                success: function (res) {
-                    if (res.success) {
-                        // Redirect to checkout page
-                        window.location.href = res.redirect_url || "{{ route('checkout') }}";
-                    } else {
-                        alert(res.message || 'Something went wrong!');
-                        $btn.html(originalText).prop('disabled', false);
-                    }
-                },
-                error: function (xhr) {
-                    console.error(xhr);
-                    alert('Error processing checkout. Please try again.');
-                    $btn.html(originalText).prop('disabled', false);
-                }
+            // Create a form and submit
+            let form = $('<form>', {
+                'method': 'POST',
+                'action': "{{ route('checkout') }}"
             });
+
+            // Add CSRF token
+            form.append($('<input>', {
+                'type': 'hidden',
+                'name': '_token',
+                'value': '{{ csrf_token() }}'
+            }));
+
+            // Add cart items as JSON
+            form.append($('<input>', {
+                'type': 'hidden',
+                'name': 'cart_items',
+                'value': JSON.stringify(cartItems)
+            }));
+
+            // Add grand total
+            form.append($('<input>', {
+                'type': 'hidden',
+                'name': 'grand_total',
+                'value': grandTotal
+            }));
+
+            // Append form to body and submit
+            $('body').append(form);
+            form.submit();
         });
+
+
     </script>
 @endpush
 
