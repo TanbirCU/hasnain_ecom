@@ -52,13 +52,19 @@
                                         <div class="input-group-btn">
                                             <button class="btn btn-sm btn-primary btn-minus"><i class="fa fa-minus"></i></button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center cart-qty" value="{{ $item['qty'] }}">
-                                        <div class="input-group-btn">
+                                        <input 
+                                                type="text" 
+                                                class="form-control form-control-sm bg-secondary border-0 text-center cart-qty" 
+                                                value="{{ $item['qty'] }}" 
+                                                data-min="{{ $product->min_order_quantity }}" 
+                                                readonly
+                                            >
+
                                             <button class="btn btn-sm btn-primary btn-plus"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="align-middle total-price">ট{{ number_format($total, 2) }}</td>
+                                <td class="align-middle total-price">ট {{ number_format($total, 2) }}</td>
                                 <td class="align-middle">
                                     <button class="btn btn-sm btn-danger remove-cart-item"><i class="fa fa-times"></i></button>
                                 </td>
@@ -95,7 +101,10 @@
                             <h5>Grand Total</h5>
                             <h5 id="grand_tottal">ট:</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <!-- Change the button to this -->
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3 proceed-checkout">
+                            Proceed To Checkout
+                        </button>
                     </div>
                 </div>
             </div>
@@ -105,75 +114,173 @@
 
 @endsection
 @push('js')
-<script>
+    <script>
 
-    // ========= REMOVE CART ITEM =========
-    $(document).on('click', '.remove-cart-item', function () {
-        let id = $(this).closest('tr').data('id');
+        // ========= REMOVE CART ITEM =========
+        $(document).on('click', '.remove-cart-item', function () {
+            let id = $(this).closest('tr').data('id');
 
-        $.ajax({
-            url: "{{ route('cart.remove') }}",
-            type: "GET",
-            data: { product_id: id },
-            success: function (res) {
-                if (res.success) {
-                    // Remove row
-                    $(`tr[data-id="${id}"]`).remove();
+            $.ajax({
+                url: "{{ route('cart.remove') }}",
+                type: "GET",
+                data: { product_id: id },
+                success: function (res) {
+                    if (res.success) {
+                        // Remove row
+                        $(`tr[data-id="${id}"]`).remove();
 
-                    // Update dropdown
-                    updateCartDropdown(res.cart_items, res.cart_count);
+                        // Update dropdown
+                        updateCartDropdown(res.cart_items, res.cart_count);
 
-                    // Recalculate totals
-                    calculateGrandTotal();
+                        // Recalculate totals
+                        calculateGrandTotal();
+                    }
+                }
+            });
+        });
+
+
+        // ========= PLUS / MINUS QUANTITY =========
+        $(document).on('click', '.btn-plus, .btn-minus', function () {
+            let $row = $(this).closest('tr');
+            let qtyInput = $row.find('.cart-qty');
+
+            let min = parseInt(qtyInput.data('min'));
+            let qty = parseInt(qtyInput.val());
+
+            // Get price from the price column (2nd column)
+            let priceText = $row.find('td:nth-child(2)').text().trim();
+            let price = parseFloat(priceText.replace('ট', '').replace(/,/g, '').trim()) || 0;
+
+            if ($(this).hasClass('btn-plus')) {
+                qty += min;
+            } else {
+                if (qty > min) {
+                    qty -= min;
                 }
             }
+
+            qtyInput.val(qty);
+
+            // Update row total
+            let newTotal = (price * qty).toFixed(2);
+            $row.find('.total-price').text('ট ' + Number(newTotal).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+
+            // Recalculate cart totals
+            calculateGrandTotal();
         });
-    });
 
 
-    // ========= PLUS / MINUS QUANTITY =========
-    $(document).on('click', '.btn-plus, .btn-minus', function () {
-        let $row = $(this).closest('tr');
-        let qtyInput = $row.find('.cart-qty');
-        let price = parseFloat($row.find('td:nth-child(2)').text().replace('$', '')) || 0;
+        // ========= GRAND TOTAL CALCULATION =========
+        function calculateGrandTotal() {
+            let total = 0;
 
-        let qty = parseInt(qtyInput.val());
+            $('.total-price').each(function () {
+                let text = $(this).text().trim();
+                
+                // Remove ট symbol, commas, and any extra spaces
+                let cleanText = text.replace('ট', '').replace(/,/g, '').trim();
+                let amount = parseFloat(cleanText);
 
-        if ($(this).hasClass('btn-plus')) {
-            qty++;
-        } else if ($(this).hasClass('btn-minus') && qty > 1) {
-            qty--;
+                if (!isNaN(amount) && amount > 0) {
+                    total += amount;
+                }
+            });
+
+            // Format the grand total with thousand separators
+            $('#grand_tottal').text('ট ' + total.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
         }
 
-        qtyInput.val(qty);
 
-        // Update row total
-        $row.find('.total-price').text('$' + (price * qty).toFixed(2));
-
-        // Recalculate cart totals
-        calculateGrandTotal();
-    });
-
-
-    // ========= GRAND TOTAL CALCULATION =========
-    function calculateGrandTotal() {
-        let sum = 0;
-
-        $('.total-price').each(function () {
-            let price = parseFloat($(this).text().replace('$', '')) || 0;
-            sum += price;
+        // ========= INITIALIZE ON PAGE LOAD =========
+        $(document).ready(function () {
+            // Small delay to ensure DOM is fully rendered
+            setTimeout(function() {
+                calculateGrandTotal();
+            }, 100);
         });
 
-        $("#grand-total").text(sum.toFixed(2));
-    }
+        // Also calculate when window is fully loaded (backup)
+        $(window).on('load', function() {
+            calculateGrandTotal();
+        });
 
 
-    // Run calculation initially
-    $(document).ready(function () {
-        calculateGrandTotal();
-    });
+        // ========= PROCEED TO CHECKOUT BUTTON =========
+        $(document).on('click', '.proceed-checkout', function (e) {
+            e.preventDefault();
 
-</script>
+            // Collect all cart items data
+            let cartItems = [];
+            let grandTotal = 0;
+
+            $('tbody tr[data-id]').each(function () {
+                let $row = $(this);
+                let id = $row.data('id');
+                let name = $row.find('td:nth-child(1)').text().trim();
+                let priceText = $row.find('td:nth-child(2)').text().trim();
+                let price = parseFloat(priceText.replace('ট', '').replace(/,/g, '').trim());
+                let qty = parseInt($row.find('.cart-qty').val());
+                let totalText = $row.find('.total-price').text().trim();
+                let total = parseFloat(totalText.replace('ট', '').replace(/,/g, '').trim());
+
+                cartItems.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    quantity: qty,
+                    total: total
+                });
+
+                grandTotal += total;
+            });
+
+            // Check if cart is empty
+            if (cartItems.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Prepare data to send
+            let checkoutData = {
+                cart_items: cartItems,
+                grand_total: grandTotal,
+                _token: '{{ csrf_token() }}'
+            };
+
+            // Show loading state
+            let $btn = $(this);
+            let originalText = $btn.html();
+            $btn.html('<i class="fa fa-spinner fa-spin"></i> Processing...').prop('disabled', true);
+
+            // Send AJAX request
+            $.ajax({
+                url: "{{ route('checkout') }}",
+                type: "POST",
+                data: checkoutData,
+                success: function (res) {
+                    if (res.success) {
+                        // Redirect to checkout page
+                        window.location.href = res.redirect_url || "{{ route('checkout') }}";
+                    } else {
+                        alert(res.message || 'Something went wrong!');
+                        $btn.html(originalText).prop('disabled', false);
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr);
+                    alert('Error processing checkout. Please try again.');
+                    $btn.html(originalText).prop('disabled', false);
+                }
+            });
+        });
+    </script>
 @endpush
 
 
