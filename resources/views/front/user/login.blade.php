@@ -10,7 +10,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <div class="card shadow-lg border-0 rounded-lg">
-                <div class="card-header text-center text-white py-4" 
+                <div class="card-header text-center text-white py-4"
                      style="background: linear-gradient(135deg, #007bff, #975cf4ff);">
                     <h4 class="mb-0">Welcome Back</h4>
                     <small>Login to your business account</small>
@@ -26,7 +26,7 @@
                                         <i class="fas fa-user"></i>
                                     </span>
                                 </div>
-                                <input type="text" name="login_id" id="login_id" 
+                                <input type="text" name="login_id" id="login_id"
                                        class="form-control" placeholder="Enter email or mobile number" required>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                         <i class="fas fa-lock"></i>
                                     </span>
                                 </div>
-                                <input type="password" name="password" id="password" 
+                                <input type="password" name="password" id="password"
                                        class="form-control" placeholder="Enter your password" required>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="card-footer text-center text-muted small">
                     <p class="mb-0">
-                        Don't have an account? 
+                        Don't have an account?
                         <a href="{{ route('user.registration') }}" class="text-primary font-weight-bold">Register now</a>
                     </p>
                 </div>
@@ -63,7 +63,8 @@
         </div>
     </div>
 </div>
-
+@endsection
+@push('js')
 
 <script>
 $(document).ready(function(){
@@ -73,7 +74,7 @@ $(document).ready(function(){
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "",
+            url: "{{ route('user.login_store') }}",
             method: "POST",
             data: formData,
             beforeSend: function(){
@@ -85,16 +86,24 @@ $(document).ready(function(){
                 });
             },
             success: function(response){
-                Swal.fire({
+                if(response.success){
+                    window.location.href = "{{ route('home') }}";
+                    Swal.fire({
                     icon: 'success',
                     title: 'Login Successful!',
                     text: 'Redirecting to your dashboard...',
                     showConfirmButton: false,
                     timer: 1500
                 });
-                setTimeout(() => {
-                    window.location.href = response.redirect ?? '/dashboard';
-                }, 1600);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed!',
+                        text: response.message || 'Invalid credentials. Please try again.'
+                    }); 
+                }
+
+
             },
             error: function(xhr){
                 Swal.fire({
@@ -107,4 +116,5 @@ $(document).ready(function(){
     });
 });
 </script>
-@endsection
+@endpush
+

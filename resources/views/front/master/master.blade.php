@@ -15,6 +15,7 @@
 </head>
 
 <body>
+
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
@@ -36,8 +37,10 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ route('user_login') }}">Sign in</a>
                             <a class="dropdown-item" href="{{ route('user.registration') }}">Sign up</a>
-                            <a class="dropdown-item" href="">Profile</a>
-                            <a class="dropdown-item" href="">Log Out</a>
+                            @if(Auth::check())
+                                <a class="dropdown-item" href="">Profile</a>
+                                <a class="dropdown-item" href="{{ route('user_logout') }}">Log Out</a>
+                            @endif
                         </div>
                     </div>
 
@@ -151,18 +154,18 @@
                             <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
                             @if(Auth::check())
                                 <a href="" class="nav-item nav-link">Orders</a>
-                                <a class="nav-item nav-link" href="{{ route('user_logout') }}"
+                                {{-- <a class="nav-item nav-link" href="{{ route('user_logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     LogOut
                                 </a>
 
                                 <form id="logout-form" action="{{ route('user_logout') }}" method="POST" style="display: none;">
                                     @csrf
-                                </form>
+                                </form> --}}
 
-                            @else
+                            {{-- @else
                                 <a href="{{ route('user.registration') }}" class="nav-item nav-link">Registration</a>
-                                <a href="{{ route('user_login') }}" class="nav-item nav-link">Login</a>
+                                <a href="{{ route('user_login') }}" class="nav-item nav-link">Login</a> --}}
                             @endif
 
                         </div>
@@ -319,9 +322,25 @@
 
             $('.cart-count').text(cartCount);
         }
+         @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}"
+            });
+        @endif
 
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}"
+            });
+        @endif
 
     </script>
+
+
 </body>
 
 </html>

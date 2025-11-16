@@ -106,22 +106,26 @@ class HomeController extends Controller
     }
     public function userLoginStore(Request $request)
     {
-        // Validate the request data
         $credentials = $request->validate([
             'login_id' => 'required',
-            'password' => 'required|string',
+            'password' => 'required',
         ]);
+        $login_id = $request->input('login_id');
+        $password = $request->input('password');
 
-        // Attempt to log the user in
-        if (auth()->attempt(['email' => $credentials['login_id'], 'password' => $credentials['password']]) || auth()->attempt(['mobile' => $credentials['login_id'], 'password' => $credentials['password']])) {
-            // Authentication passed...
+        $fieldType = filter_var($login_id, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+        if (auth()->attempt([$fieldType => $login_id, 'password' => $password])) {
+
+            if (auth()->user()->status != 1) {
+                auth()->logout();
+                return redirect()->route('user_login')
+                    ->with('error', 'Your account is not approved yet.');
+            }
+
             return redirect()->intended(route('home'))->with('success', 'Login successful!');
         }
-
-        // Authentication failed...
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->withInput();
+        return back()->with('error', 'Invalid login credentials.');
     }
 
     public function userLogout()
