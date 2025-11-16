@@ -5,6 +5,8 @@ namespace App\Http\Controllers\front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderItem;
 
 class ProductShowController extends Controller
 {
@@ -114,61 +116,56 @@ class ProductShowController extends Controller
     // In ProductShowController
     public function placeOrder(Request $request)
     {
-        // // Validate
-        // $request->validate([
-        //     'first_name' => 'required|string|max:255',
-        //     'last_name' => 'required|string|max:255',
-        //     'email' => 'required|email',
-        //     'mobile' => 'required|string',
-        //     'address_1' => 'required|string',
-        //     'city' => 'required|string',
-        //     'state' => 'required|string',
-        //     'zip' => 'required|string',
-        //     'country' => 'required|string',
-        //     'payment_method' => 'required|string',
-        // ]);
+        // Validate
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'mobile' => 'required|string',
+            'district' => 'required|string',
+            'upzilla' => 'required|string',
+            'union' => 'required|string',
+            'extra_address' => 'required|string',
+        ]);
 
         // // Get cart items
-        // $cartItems = json_decode($request->cart_items, true);
-        // $grandTotal = $request->grand_total;
+        $cartItems = json_decode($request->cart_items, true);
+        $grandTotal = $request->grand_total;
 
         // // Create order (adjust according to your Order model)
-        // $order = new Order();
-        // $order->first_name = $request->first_name;
-        // $order->last_name = $request->last_name;
-        // $order->email = $request->email;
-        // $order->mobile = $request->mobile;
-        // $order->address_1 = $request->address_1;
-        // $order->address_2 = $request->address_2;
-        // $order->city = $request->city;
-        // $order->state = $request->state;
-        // $order->zip = $request->zip;
-        // $order->country = $request->country;
-        // $order->payment_method = $request->payment_method;
-        // $order->grand_total = $grandTotal;
-        // $order->status = 'pending';
-        // $order->save();
-
+        $order = new Order();
+        $order->name = $request->name;
+        $order->user_id = auth()->id();
+        $order->email = $request->email;
+        $order->mobile = $request->mobile;
+        $order->district = $request->district;
+        $order->upzilla = $request->upzilla;
+        $order->union = $request->union;
+        $order->extra_address = $request->extra_address;
+        $order->grand_total = $grandTotal;
+        $order->status = 0; // pending
+        $order->save();
+        $order->user_order_id = 'ORD'.str_pad($order->id, 6, '0', STR_PAD_LEFT);
+        $order->save();
         // // Save order items
-        // foreach ($cartItems as $item) {
-        //     OrderItem::create([
-        //         'order_id' => $order->id,
-        //         'product_id' => $item['id'],
-        //         'product_name' => $item['name'],
-        //         'quantity' => $item['quantity'],
-        //         'price' => $item['price'],
-        //         'total' => $item['total'],
-        //     ]);
-        // }
+        foreach ($cartItems as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['id'],
+                'product_name' => $item['name'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+                'total' => $item['total'],
+            ]);
+        }
 
         // // Clear cart from session if you're using it
-        // session()->forget('cart');
+        session()->forget('cart');
 
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Order placed successfully',
-        //     'redirect_url' => route('order.success', $order->id)
-        // ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Order placed successfully',
+            'redirect_url' => route('order.success', $order->id)
+        ]);
     }
 
 
