@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Order;
 
 class DashboardController extends Controller
 {
@@ -46,5 +47,10 @@ class DashboardController extends Controller
     {
         auth()->logout();
         return redirect()->route('admin_login');
+    }
+    public function orderList()
+    {
+        $data['orders'] = Order::orderBy('created_at', 'desc')->get();
+        return view('dashboard.orders.order_list', $data);
     }
 }
