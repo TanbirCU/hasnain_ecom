@@ -27,5 +27,24 @@ class DashboardController extends Controller
 
         return response()->json(['message' => 'User Approved successfully.']);
     }
+    public function adminLogin()
+    {
+        return view('dashboard.auth.admin_login');
+    }
+    public function adminLoginStore(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
 
+        if (auth()->attempt($credentials) && auth()->user()->is_admin==1) {
+            return redirect()->route('admin.dashboard')->with('message', 'Login successful.');
+        } else {
+            return redirect()->back()->withErrors(['Invalid credentials.']);
+        }
+    }
+
+    public function adminLogout()
+    {
+        auth()->logout();
+        return redirect()->route('admin_login');
+    }
 }

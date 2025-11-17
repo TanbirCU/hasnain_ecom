@@ -153,7 +153,7 @@
                             </div>
                             <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
                             @if(Auth::check())
-                                <a href="" class="nav-item nav-link">Orders</a>
+                                <a href="{{ route('orders') }}" class="nav-item nav-link">Orders</a>
                                 {{-- <a class="nav-item nav-link" href="{{ route('user_logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     LogOut

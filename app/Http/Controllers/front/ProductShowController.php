@@ -164,7 +164,8 @@ class ProductShowController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Order placed successfully',
-            'redirect_url' => route('order.success', $order->id)
+            // 'redirect_url' => route('orders', $order->id)
+            'redirect_url' => route('orders')
         ]);
     }
 
@@ -179,5 +180,14 @@ class ProductShowController extends Controller
         ->get(['id', 'name', 'selling_price', 'small_description']);
 
         return view('front.product.shop',$data);
+    }
+    public function orders()
+    {
+        $data['orders'] = Order::with('orderItems')->where('user_id', auth()->id())
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('front.orders.order',$data);
+
     }
 }

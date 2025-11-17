@@ -44,29 +44,36 @@ Route::middleware('auth','approved')->group(function () {
     Route::post('/checkout', [ProductShowController::class, 'checkout'])->name('checkout');
     Route::post('/order-place', [ProductShowController::class, 'placeOrder'])->name('order.place');
     Route::get('/shop', [ProductShowController::class, 'shop'])->name('shop');
+    Route::get('/orders', [ProductShowController::class, 'orders'])->name('orders');
 
 });
 
 
 
 // Admin Dashboard Routes
+Route::get('/admin-login', [DashboardController::class, 'adminLogin'])->name('admin_login');
 Route::prefix('admin')->name('admin.')->group(function () {
-    // image upload
-    Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('upload_image');
+    Route::post('/login-store', [DashboardController::class, 'adminLoginStore'])->name('login_store');
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/logout', [DashboardController::class, 'adminLogout'])->name('admin_logout');
+        // image upload
+        Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('upload_image');
 
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Resource routes
-    Route::resource('/category', CategoryController::class)->names('category');
-    Route::resource('/sub-category', SubCategoryController::class)->names('sub_category');
-    Route::resource('/product', ProductController::class)->names('product');
-    Route::resource('/unit', UnitController::class)->names('unit');
-    Route::resource('/supplier', SupplierController::class)->names('supplier');
-    Route::resource('/sales-man', SalesManController::class)->names('sales_man');
-    Route::resource('/colors', ColorController::class)->names('colors');
-    Route::resource('/sizes', SizeController::class)->names('sizes');
-    Route::get('/user-list', [DashboardController::class, 'userList'])->name('userList');
-    Route::post('/user-approve', [DashboardController::class, 'approve'])->name('user_approve');
+        // Resource routes
+        Route::resource('/category', CategoryController::class)->names('category');
+        Route::resource('/sub-category', SubCategoryController::class)->names('sub_category');
+        Route::resource('/product', ProductController::class)->names('product');
+        Route::resource('/unit', UnitController::class)->names('unit');
+        Route::resource('/supplier', SupplierController::class)->names('supplier');
+        Route::resource('/sales-man', SalesManController::class)->names('sales_man');
+        Route::resource('/colors', ColorController::class)->names('colors');
+        Route::resource('/sizes', SizeController::class)->names('sizes');
+        Route::get('/user-list', [DashboardController::class, 'userList'])->name('userList');
+        Route::post('/user-approve', [DashboardController::class, 'approve'])->name('user_approve');
+        Route::get('/order-list', [DashboardController::class, 'orderList'])->name('orderList');
 
+    });
 });

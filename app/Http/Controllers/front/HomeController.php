@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -110,22 +111,33 @@ class HomeController extends Controller
             'login_id' => 'required',
             'password' => 'required',
         ]);
+        
         $login_id = $request->input('login_id');
-        $password = $request->input('password');
-
+        $password = $request->password;
+        
         $fieldType = filter_var($login_id, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
-
-        if (auth()->attempt([$fieldType => $login_id, 'password' => $password])) {
-
-            if (auth()->user()->status != 1) {
-                auth()->logout();
-                return redirect()->route('user_login')
-                    ->with('error', 'Your account is not approved yet.');
-            }
-
-            return redirect()->intended(route('home'))->with('success', 'Login successful!');
+        
+        $user = User::where($fieldType, $login_id)->first();
+        
+        // Check if user exists and password matches
+        if ($user && Hash::check($password, $user->password)) {
+            auth()->login($user);
+            $request->session()->regenerate(); // Important for security
+            return response()->json([
+                'success' => 'Login successful!',
+            ]);
+            // Uncomment if you need status check
+            // if ($user->status != 1) {
+            //     auth()->logout();
+            //     return redirect()->route('user_login')
+            //         ->with('error', 'Your account is not approved yet.');
+            // }
+            
+            // return redirect()->intended(route('home'))->with('success', 'Login successful!');
         }
-        return back()->with('error', 'Invalid login credentials.');
+        
+        return back()->withInput($request->only('login_id'))
+            ->with('error', 'Invalid login credentials.');
     }
 
     public function userLogout()

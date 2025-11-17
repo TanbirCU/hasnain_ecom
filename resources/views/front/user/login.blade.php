@@ -16,7 +16,7 @@
                     <small>Login to your business account</small>
                 </div>
                 <div class="card-body p-4">
-                    <form id="businessLoginForm">
+                    <form id="businessLoginForm" method="POST" action="{{ route('user.login_store') }}">
                         @csrf
                         <div class="form-group">
                             <label for="login_id">Email or Mobile Number</label>
@@ -86,22 +86,14 @@ $(document).ready(function(){
                 });
             },
             success: function(response){
-                if(response.success){
                     window.location.href = "{{ route('home') }}";
                     Swal.fire({
-                    icon: 'success',
-                    title: 'Login Successful!',
-                    text: 'Redirecting to your dashboard...',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Failed!',
-                        text: response.message || 'Invalid credentials. Please try again.'
-                    }); 
-                }
+                        icon: 'success',
+                        title: 'Login Successful!',
+                        text: 'Redirecting to your dashboard...',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
 
 
             },

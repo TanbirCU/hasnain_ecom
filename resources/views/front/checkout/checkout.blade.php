@@ -147,8 +147,14 @@ $(document).on('click', '.place-order-btn', function(e) {
         data: formData,
         success: function(res) {
             if (res.success) {
-                alert('Order placed successfully!');
-                window.location.href = res.redirect_url || "{{ route('home') }}";
+                swal.fire({
+                    icon: 'success',
+                    title: 'Order Placed!',
+                    text: res.message || 'Your order has been placed successfully.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                window.location.href = res.redirect_url || "{{ route('orders') }}";
             } else {
                 alert(res.message || 'Something went wrong!');
                 $btn.html(originalText).prop('disabled', false);
