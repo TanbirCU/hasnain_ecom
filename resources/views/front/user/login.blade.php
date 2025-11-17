@@ -86,6 +86,7 @@ $(document).ready(function(){
                 });
             },
             success: function(response){
+                if(response.success){
                     window.location.href = "{{ route('home') }}";
                     Swal.fire({
                         icon: 'success',
@@ -94,6 +95,13 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 1500
                     });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed!',
+                        text: response.error || 'Invalid credentials. Please try again.'
+                    });
+                }
 
 
             },

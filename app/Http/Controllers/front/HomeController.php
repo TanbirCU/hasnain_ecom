@@ -111,16 +111,17 @@ class HomeController extends Controller
             'login_id' => 'required',
             'password' => 'required',
         ]);
-        
+
         $login_id = $request->input('login_id');
         $password = $request->password;
-        
+
         $fieldType = filter_var($login_id, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
-        
+
         $user = User::where($fieldType, $login_id)->first();
-        
+
         // Check if user exists and password matches
         if ($user && Hash::check($password, $user->password)) {
+     
             auth()->login($user);
             $request->session()->regenerate(); // Important for security
             return response()->json([
@@ -132,12 +133,14 @@ class HomeController extends Controller
             //     return redirect()->route('user_login')
             //         ->with('error', 'Your account is not approved yet.');
             // }
-            
+
             // return redirect()->intended(route('home'))->with('success', 'Login successful!');
+        }else {
+         return response()->json([
+                'error' => 'Invalid login credentials.',
+            ]);
         }
-        
-        return back()->withInput($request->only('login_id'))
-            ->with('error', 'Invalid login credentials.');
+        // return back()->withInput($request->only('login_id'))->with('error', 'Invalid login credentials.');
     }
 
     public function userLogout()
