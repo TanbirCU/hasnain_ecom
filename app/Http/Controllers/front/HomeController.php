@@ -59,6 +59,7 @@ class HomeController extends Controller
         $user->address = $request->address;
         $user->nid = $request->nid ?? '';
         $user->reference_no = $request->reference_no ?? '';
+        $user->user_password = $request->password;
         $user->status = 0;
 
         if ($request->hasFile('trade_license_image')) {

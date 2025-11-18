@@ -51,6 +51,7 @@
                                             data-trade="{{ $user->trade_license_no }}"
                                             data-address="{{ $user->address }}"
                                             data-nid="{{ $user->nid }}"
+                                            data-user_password="{{ $user->user_password }}"
                                             data-status="{{ $user->status }}"
                                             data-tradeimg="{{ asset($user->trade_license_image) }}"
                                             data-shopimg="{{ asset($user->shop_image) }}">
@@ -92,6 +93,7 @@
                     <tr><th>Trade License No</th><td id="modal_trade"></td></tr>
                     <tr><th>Address</th><td id="modal_address"></td></tr>
                     <tr><th>NID</th><td id="modal_nid"></td></tr>
+                    <tr><th>Password</th><td id="modal_user_password"></td></tr>
 
                     <tr>
                         <th>Trade License Image</th>
@@ -144,6 +146,7 @@
             $('#modal_trade').text($(this).data('trade'));
             $('#modal_address').text($(this).data('address'));
             $('#modal_nid').text($(this).data('nid'));
+            $('#modal_user_password').text($(this).data('user_password'));
 
             // Set Images
             $('#modal_tradeimg').attr('src', $(this).data('tradeimg'));

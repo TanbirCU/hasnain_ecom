@@ -36,7 +36,7 @@
                                     <td>{{ $order->district ?? '' }}</td>
                                     <td>{{ $order->upzilla ?? '' }}</td>
                                     <td>{{ $order->union  ?? '' }}</td>
-                                    {{-- <td id="status_{{ $order->id }}">
+                                    {{-- <td >
                                         @if($order->status == 0)
                                             <button class="btn btn-sm btn-warning approveBtn" data-id="{{ $order->id }}">
                                                 Approve Please
@@ -48,20 +48,8 @@
                                     <td>{{ $order->status }}</td>
 
                                     <td>
-                                        {{-- <a href="javascript:void(0)"
-                                            class="btn btn-primary btn-sm view-product"
-                                            data-name="{{ $order->name }}"
-                                            data-email="{{ $order->email }}"
-                                            data-phone="{{ $order->phone }}"
-                                            data-trade="{{ $order->trade_license_no }}"
-                                            data-address="{{ $order->address }}"
-                                            data-nid="{{ $order->nid }}"
-                                            data-status="{{ $order->status }}"
-                                            data-tradeimg="{{ asset($order->trade_license_image) }}"
-                                            data-shopimg="{{ asset($order->shop_image) }}">
-                                                <i class="fas fa-eye"></i>
-                                            </a> --}}
-
+                                       
+                                        <a href="{{ route('admin.order_details',$order->id) }}"> <i class="fas fa-eye"></i></a>
 
                                     </td>
 
@@ -77,45 +65,6 @@
         </div><!-- Card end -->
     </div><!-- Col end -->
 </div><!-- Row end -->
-<!-- order Details Modal -->
-<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">order Details</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <table class="table table-bordered">
-                    <tr><th>Name</th><td id="modal_name"></td></tr>
-                    <tr><th>Email</th><td id="modal_email"></td></tr>
-                    <tr><th>Phone</th><td id="modal_phone"></td></tr>
-                    <tr><th>Trade License No</th><td id="modal_trade"></td></tr>
-                    <tr><th>Address</th><td id="modal_address"></td></tr>
-                    <tr><th>NID</th><td id="modal_nid"></td></tr>
-
-                    <tr>
-                        <th>Trade License Image</th>
-                        <td><img id="modal_tradeimg" style="max-width:150px; border:1px solid #ddd; padding:4px;"></td>
-                    </tr>
-
-                    <tr>
-                        <th>Shop Image</th>
-                        <td><img id="modal_shopimg" style="max-width:150px; border:1px solid #ddd; padding:4px;"></td>
-                    </tr>
-
-                    <tr><th>Status</th><td id="modal_status"></td></tr>
-                </table>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 
 
 @endsection

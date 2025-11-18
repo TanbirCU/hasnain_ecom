@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('reference_no')->nullable();
             $table->string('trade_license_image')->nullable();
             $table->string('shop_image')->nullable();
+            $table->string('user_password')->nullable();
             $table->integer('status')->default(0);
             $table->rememberToken();
             $table->timestamps();

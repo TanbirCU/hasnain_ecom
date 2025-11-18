@@ -74,6 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/user-list', [DashboardController::class, 'userList'])->name('userList');
         Route::post('/user-approve', [DashboardController::class, 'approve'])->name('user_approve');
         Route::get('/order-list', [DashboardController::class, 'orderList'])->name('orderList');
+        Route::get('/order-details/{order_id}', [DashboardController::class, 'orderDetails'])->name('order_details');
 
     });
 });

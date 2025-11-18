@@ -53,4 +53,9 @@ class DashboardController extends Controller
         $data['orders'] = Order::orderBy('created_at', 'desc')->get();
         return view('dashboard.orders.order_list', $data);
     }
+    public function orderDetails($order_id)
+    {
+        $data['order'] = Order::with('orderItems')->findOrFail($order_id);
+        return view('dashboard.orders.order_details', $data);
+    }
 }
