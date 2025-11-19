@@ -185,7 +185,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-book"></i>
                         <span>Unit</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -195,7 +195,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-briefcase"></i>
                         <span>Size</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -205,7 +205,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-align-justify"></i>
                         <span>Color</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -215,7 +215,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-archway"></i>
                         <span>Supplier</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -225,7 +225,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-book-medical"></i>
                         <span>Sales Man</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -243,7 +243,7 @@
                         <li><a href="{{ route('admin.product.index') }}">List</a></li>
                     </ul>
                 </li>
-                
+
                 <li>
                     <a href="{{ route('admin.userList') }}" class="waves-effect">
                         <i class="fas fa-address-card"></i>
@@ -252,18 +252,18 @@
                 </li>
                 <li>
                     <a href="{{ route('admin.orderList') }}" class="waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-box-open"></i>
                         <span>Orders List</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-bookmark"></i>
                         <span>Frontend</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('admin.navicon_change') }}">NavIcon</a></li>
-                        <li><a href="">Contact</a></li>
+                        {{-- <li><a href="">Contact</a></li> --}}
                     </ul>
                 </li>
 

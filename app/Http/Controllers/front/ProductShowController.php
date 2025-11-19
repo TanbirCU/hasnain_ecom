@@ -170,17 +170,41 @@ class ProductShowController extends Controller
     }
 
 
+    // public function shop(Request $request)
+    // {
+    //      $data['products'] = Product::whereHas('images')
+    //     ->with('images')
+    //     ->where('status', 1)
+    //     ->orderBy('id', 'asc')
+    //     ->limit(8)
+    //     ->get(['id', 'name', 'selling_price', 'small_description']);
+
+    //     return view('front.product.shop',$data);
+    // }
     public function shop(Request $request)
     {
-         $data['products'] = Product::whereHas('images')
-        ->with('images')
-        ->where('status', 1)
-        ->orderBy('id', 'asc')
-        ->limit(8)
-        ->get(['id', 'name', 'selling_price', 'small_description']);
+        $categoryId = $request->category_id;
 
-        return view('front.product.shop',$data);
+        $query = Product::where('status', 1)
+            ->whereHas('images')
+            ->with('images');
+
+        // If category filter applied
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $products = $query->orderBy('id', 'asc')->get([
+            'id',
+            'name',
+            'selling_price',
+            'small_description',
+            'category_id'
+        ]);
+
+        return view('front.product.shop', compact('products'));
     }
+
     public function orders()
     {
         $data['orders'] = Order::with('orderItems')->where('user_id', auth()->id())
