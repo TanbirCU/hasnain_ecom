@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -58,4 +59,25 @@ class DashboardController extends Controller
         $data['order'] = Order::with('orderItems')->findOrFail($order_id);
         return view('dashboard.orders.order_details', $data);
     }
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+
+        return back()->with('success', 'Order status updated successfully!');
+    }
+    
+
+    public function downloadPDF($id)
+    {
+        $order = Order::with('orderItems')->findOrFail($id);
+
+        $pdf = PDF::loadView('dashboard.orders.pdf', compact('order'))
+                ->setPaper('a4');
+
+        return $pdf->download('order-'.$order->user_order_id.'.pdf');
+    }
+
+
 }

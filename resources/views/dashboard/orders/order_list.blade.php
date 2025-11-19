@@ -36,20 +36,35 @@
                                     <td>{{ $order->district ?? '' }}</td>
                                     <td>{{ $order->upzilla ?? '' }}</td>
                                     <td>{{ $order->union  ?? '' }}</td>
-                                    {{-- <td >
-                                        @if($order->status == 0)
-                                            <button class="btn btn-sm btn-warning approveBtn" data-id="{{ $order->id }}">
-                                                Approve Please
-                                            </button>
+                                    <td>
+                                        @if ($order->status == 0)
+                                            <span class="badge badge-warning">Pending</span>
+
+                                        @elseif ($order->status == 1)
+                                            <span class="badge badge-info">Processing</span>
+
+                                        @elseif ($order->status == 2)
+                                            <span class="badge badge-success">Completed</span>
+
                                         @else
-                                            <span class="badge badge-success">Approved</span>
+                                            <span class="badge badge-danger">Cancelled</span>
                                         @endif
-                                    </td> --}}
-                                    <td>{{ $order->status }}</td>
+                                    </td>
+
+                                  
 
                                     <td>
                                        
                                         <a href="{{ route('admin.order_details',$order->id) }}"> <i class="fas fa-eye"></i></a>
+                                        <a href="javascript:void(0)" 
+                                            class="text-primary ml-2 updateStatusBtn" 
+                                            data-id="{{ $order->id }}" 
+                                            data-status="{{ $order->status }}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ route('admin.order.pdf', $order->id) }}" class="text-danger ml-2">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
 
                                     </td>
 
@@ -66,9 +81,62 @@
     </div><!-- Col end -->
 </div><!-- Row end -->
 
+<!-- Update Status Modal -->
+<div class="modal fade" id="updateStatusModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Update Order Status</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <form id="updateStatusForm" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="modal-body">
+            <input type="hidden" name="order_id" id="order_id">
+
+            <label>Status</label>
+            <select name="status" id="order_status" class="form-control">
+                <option value="0">Pending</option>
+                <option value="1">Processing</option>
+                <option value="2">Completed</option>
+                <option value="3">Cancelled</option>
+            </select>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
 
 @endsection
 @push('js')
+<script>
+$(document).ready(function() {
+    $(document).on('click', '.updateStatusBtn', function () {
+        let id = $(this).data('id');
+        let status = $(this).data('status');
+
+        $('#order_id').val(id);
+        $('#order_status').val(status);
+
+        // Set action URL dynamically
+        $('#updateStatusForm').attr('action', '/admin/orders/update-status/' + id);
+
+        $('#updateStatusModal').modal('show');
+    });
+});
+
+</script>
     {{-- <script>
         $(document).ready(function() {
             $(document).on('click', '.approveBtn', function () {

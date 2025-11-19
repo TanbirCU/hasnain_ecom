@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\SupplierController;
 use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\UnitController;
+use App\Http\Controllers\admin\FrontendController;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\ProductShowController;
 
@@ -75,6 +76,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/user-approve', [DashboardController::class, 'approve'])->name('user_approve');
         Route::get('/order-list', [DashboardController::class, 'orderList'])->name('orderList');
         Route::get('/order-details/{order_id}', [DashboardController::class, 'orderDetails'])->name('order_details');
+        Route::put('/orders/update-status/{id}', [DashboardController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::get('/order/pdf/{id}', [DashboardController::class, 'downloadPDF'])
+       ->name('order.pdf');
+
+        //fronend work
+        Route::get('/navicon-change', [FrontendController::class, 'naviconPage'])
+            ->name('navicon_change');
+        Route::post('/navicon-update', [FrontendController::class, 'store'])->name('navicon_update');
+
+
+
 
     });
 });

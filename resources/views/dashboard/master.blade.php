@@ -262,7 +262,7 @@
                         <span>Frontend</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="">NavIcon</a></li>
+                        <li><a href="{{ route('admin.navicon_change') }}">NavIcon</a></li>
                         <li><a href="">Contact</a></li>
                     </ul>
                 </li>
