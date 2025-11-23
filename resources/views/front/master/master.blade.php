@@ -47,19 +47,15 @@
                     </div>
 
                     <div class="btn-group mx-2">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">টাকা</button>
+                        {{-- <div class="dropdown-menu dropdown-menu-right">
                             <button class="dropdown-item" type="button">EUR</button>
-                            <button class="dropdown-item" type="button">GBP</button>
-                            <button class="dropdown-item" type="button">CAD</button>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">BAN</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">FR</button>
-                            <button class="dropdown-item" type="button">AR</button>
-                            <button class="dropdown-item" type="button">RU</button>
+                            <button class="dropdown-item" type="button">ENG</button>
                         </div>
                     </div>
                 </div>
