@@ -16,10 +16,16 @@ class HomeController extends Controller
     public function home()
     {
         $data['categories'] = Category::where('status',1)->limit(12)->get();
-        $data['products'] = Product::whereHas('images')
+        $data['products']=$product = Product::whereHas('images')
         ->with('images')
         ->where('status', 1)
         ->orderBy('id', 'asc')
+        ->limit(8)
+        ->get(['id', 'name', 'selling_price', 'small_description']);
+        $data['recent_products'] = Product::whereHas('images')
+        ->with('images')
+        ->where('status', 1)
+        ->orderBy('id', 'desc')
         ->limit(8)
         ->get(['id', 'name', 'selling_price', 'small_description']);
 
