@@ -13,3 +13,17 @@
     <link href="{{asset('/assets/front/css/style.css')}}" rel="stylesheet">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    {{-- <style>
+        .cart-badge {
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%   { transform: translateY(0); }
+            30%  { transform: translateY(-6px); }
+            50%  { transform: translateY(0); }
+            70%  { transform: translateY(-3px); }
+            100% { transform: translateY(0); }
+        }
+    </style> --}}
+    @stack('front_css')

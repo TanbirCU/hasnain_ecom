@@ -455,10 +455,16 @@
                        updateCartDropdown(response.cart_items, response.cart_count);
 
 
-                        // Bounce animation
+                         $('.cart-count-mobile').text(response.cart_count);
+
+                        // Bounce animation desktop
                         $('.cart-count').addClass('animate__animated animate__bounce');
+
+                        // Bounce animation mobile
+                        $('.cart-count-mobile').addClass('animate__animated animate__bounce');
+
                         setTimeout(() => {
-                            $('.cart-count').removeClass('animate__animated animate__bounce');
+                            $('.cart-count, .cart-count-mobile').removeClass('animate__animated animate__bounce');
                         }, 1000);
                     // }
                 },
@@ -478,7 +484,20 @@
 
 @endpush
 
-
+{{-- @push('front_css')
+<style>
+    .cart-badge {
+        animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+        0%   { transform: translateY(0); }
+        30%  { transform: translateY(-6px); }
+        50%  { transform: translateY(0); }
+        70%  { transform: translateY(-3px); }
+        100% { transform: translateY(0); }
+    }
+</style>
+@endpush --}}
 <style>
     #product-carousel .carousel-inner {
         height: 550px; /* adjust as needed */
