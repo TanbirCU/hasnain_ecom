@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="btn-group mx-2">
-                        <button type="button" cla                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">টাকা</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">টাকা</button>
                         {{-- <div class="dropdown-menu dropdown-menu-right">
                             <button class="dropdown-item" type="button">EUR</button>
                         </div> --}}
@@ -62,13 +62,14 @@
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
                     <a href="" class="btn px-0 ml-2">
                         <i class="fas fa-heart text-dark"></i>
-                        <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</s<a href="" class="btn px-0 ml-2">
-                        <i class="fas fa-shopping-cart text-dark"></i>
-                        <span class="cart-count-mobile badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                        <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
                     </a>
-}-bottom: 2px;">0</span>
+                    <a href="" class="btn px-0 ml-2">
+                        <i class="fas fa-shopping-cart text-dark"></i>
+                        <span class="badge text-dark border border-dark rounded-circle cart-count" style="padding-bottom: 2px;">0</span>
                     </a>
                 </div>
+
             </div>
         </div>
         <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
@@ -161,7 +162,9 @@
                                     <a href="checkout.html" class="dropdown-item">Checkout</a>
                                 </div>
                             </div> --}}
-           <a href="{{ route('orders') }}" class="nav-item nav-link">Orders</a>
+                            <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
+                            @if(Auth::check())
+                                <a href="{{ route('orders') }}" class="nav-item nav-link">Orders</a>
                                 {{-- <a class="nav-item nav-link" href="{{ route('user_logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     LogOut
@@ -188,12 +191,17 @@
                                         </span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right p-2" style="min-width: 300px;">
-                                        <div class="cart-dropdown d-lg-none" style="display:none; position:absolute; right:10px; background:#fff; width:260px; z-index:999; padding:10px; border:1px solid #ddd;">
-                                        <ul id="cart-items-list-mobile" class="list-unstyled m-0 p-0"></ul>
-                                        <hr>
+                                        <ul id="cart-items-list" class="list-unstyled m-0 p-0"></ul>
+                                        <div class="dropdown-divider"></div>
                                         <a href="{{ route('cart_view') }}" class="btn btn-primary btn-block">View Cart</a>
                                     </div>
-           </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
                 </nav>
             </div>
         </div>
@@ -286,7 +294,7 @@
             $(".cart-dropdown").toggle();
         });
         $(document).ready(function() {
-            $(document).on('click', '    $(".dropdown-menu, .cart-dropdown").toggle();) {
+            $(document).on('click', '.remove-cart-item', function() {
                     let id = $(this).closest('li').data('id');
 
                     $.ajax({
