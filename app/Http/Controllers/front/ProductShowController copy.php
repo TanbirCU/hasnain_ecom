@@ -63,7 +63,7 @@ class ProductShowController extends Controller
         ]);
     }
 
-    public function remove(Request $request)
+  public function remove(Request $request)
     {
         $cart = session()->get('cart', []);
         $id = $request->product_id;
