@@ -455,16 +455,16 @@
                        updateCartDropdown(response.cart_items, response.cart_count);
 
 
-                         $('.cart-count-mobile').text(response.cart_count);
+                         $('.cart_count_mobile').text(response.cart_count);
 
                         // Bounce animation desktop
                         $('.cart-count').addClass('animate__animated animate__bounce');
 
                         // Bounce animation mobile
-                        $('.cart-count-mobile').addClass('animate__animated animate__bounce');
+                        $('.cart_count_mobile').addClass('animate__animated animate__bounce');
 
                         setTimeout(() => {
-                            $('.cart-count, .cart-count-mobile').removeClass('animate__animated animate__bounce');
+                            $('.cart-count, .cart_count_mobile').removeClass('animate__animated animate__bounce');
                         }, 1000);
                     // }
                 },

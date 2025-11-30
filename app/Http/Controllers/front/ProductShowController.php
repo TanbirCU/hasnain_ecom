@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Session;
 
 class ProductShowController extends Controller
 {
@@ -62,6 +63,19 @@ class ProductShowController extends Controller
             'cart_items'  => $items // Changed to match updateCartDropdown format
         ]);
     }
+    // CartController.php
+
+    public function getCartCount()
+    {
+        // Assuming your cart is stored in session as array of items
+        $cart = Session::get('cart', []);
+        $cart_count = count($cart); // total items
+        return response()->json([
+            'cart_count' => $cart_count,
+            'cart_items' => $cart
+        ]);
+    }
+
 
     public function remove(Request $request)
     {

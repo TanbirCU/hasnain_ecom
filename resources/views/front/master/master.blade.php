@@ -59,14 +59,17 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
                     <a href="" class="btn px-0 ml-2">
                         <i class="fas fa-heart text-dark"></i>
                         <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
                     </a>
-                    <a href="" class="btn px-0 ml-2">
+                    {{-- mobile cart count --}}
+                    <a href="{{ route('cart_view') }}" class="btn px-0 ml-2 d-lg-none">
                         <i class="fas fa-shopping-cart text-dark"></i>
-                        <span class="badge text-dark border border-dark rounded-circle" style="padding-bottom: 2px;">0</span>
+                        <span class="badge text-dark border border-dark rounded-circle cart_count_mobile" style="padding-bottom: 2px;">0</span>
+
                     </a>
                 </div>
             </div>
@@ -179,15 +182,14 @@
                             @endif
 
                         </div>
+                        {{-- desktop cart count --}}
                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
 
                             <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                 <div class="btn-group">
                                     <a href="javascript:void(0)" class="btn px-0 ml-3 dropdown-toggle" data-toggle="dropdown">
                                         <i class="fas fa-shopping-cart text-primary"></i>
-                                        <span class="badge text-secondary border border-secondary rounded-circle cart-count" style="padding-bottom: 2px;">
-                                            0
-                                        </span>
+                                        <span class="badge text-secondary border border-secondary rounded-circle cart-count" style="padding-bottom: 2px;">0</span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right p-2" style="min-width: 300px;">
                                         <ul id="cart-items-list" class="list-unstyled m-0 p-0"></ul>
@@ -289,6 +291,30 @@
 
     @include('front/layouts/js')
     <script>
+        // Function to update both desktop & mobile cart counts
+        function updateCartUI(cartItems, cartCount) {
+            $('.cart-count, .cart_count_mobile').text(cartCount);
+
+            let $list = $('#cart-items-list');
+            $list.empty();
+            $.each(cartItems, function(id, item) {
+                let li = `
+                    <li class="d-flex justify-content-between align-items-center mb-2 p-2 border-bottom" data-id="${id}">
+                        <span><strong>${item.name}</strong> <span class="text-muted">x ${item.qty}</span></span>
+                        <button class="btn btn-sm btn-danger remove-cart-item">&times;</button>
+                    </li>
+                `;
+                $list.append(li);
+            });
+        }
+
+        // Fetch cart count on page load
+        $(document).ready(function() {
+            $.get("{{ route('cart.count') }}", function(response) {
+                updateCartUI(response.cart_items, response.cart_count);
+            });
+        });
+
         $(document).on("click", ".cart-icon", function () {
             $(".cart-dropdown").toggle();
         });

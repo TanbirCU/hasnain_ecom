@@ -41,6 +41,9 @@ Route::middleware('auth','approved')->group(function () {
     Route::get('/product-details/{product_id}',[ProductShowController::class,'product_details'])->name('product_details');
     Route::post('/cart/add', [ProductShowController::class, 'add'])->name('cart.add');
     Route::get('/cart-view', [ProductShowController::class, 'cartView'])->name('cart_view');
+    // web.php
+    Route::get('/cart-count', [ProductShowController::class, 'getCartCount'])->name('cart.count');
+
     Route::get('/cart-remove', [ProductShowController::class, 'remove'])->name('cart.remove');
     Route::post('/checkout', [ProductShowController::class, 'checkout'])->name('checkout');
     Route::post('/order-place', [ProductShowController::class, 'placeOrder'])->name('order.place');

@@ -14,7 +14,7 @@
                             <tr>
                                 <th>Serial</th>
                                 <th>Product Name</th>
-                                <th>Category,Sub-Category</th>
+                                <th>Category</th>
                                 <th>Purchase Price</th>
                                 <th>Selling Price</th>
                                 <th>MOQ</th>
@@ -28,7 +28,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->category->name  }} -> {{ $product->subCategory->name }}</td>
+                                    <td>{{ $product->category->name  }}</td>
                                     <td>{{ $product->purchase_price }}</td>
                                     <td>{{ $product->selling_price }}</td>
                                     <td>{{ $product->min_order_quantity }}</td>

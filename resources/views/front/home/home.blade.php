@@ -106,7 +106,7 @@
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Brands</span></h2>
         <div class="row px-xl-5 pb-3">
             @foreach ($categories as $category)
                  <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
@@ -117,7 +117,7 @@
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>{{ $category->name ?? 'Category Name' }}</h6>
-                            <small class="text-body">100 Products</small>
+                            <small class="text-body">Products</small>
                         </div>
                     </div>
                 </a>
