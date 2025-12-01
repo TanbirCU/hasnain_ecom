@@ -106,72 +106,73 @@
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Brands</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Brands</span>
+        </h2>
+
         <div class="row px-xl-5 pb-3">
             @foreach ($categories as $category)
-                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="{{ $category->category_image }}" alt="">
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <a class="text-decoration-none"
+                    href="{{ route('shop', ['category_id' => $category->id]) }}">
+
+                        <div class="cat-item d-flex align-items-center mb-4 clickable-card">
+                            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                                <img class="img-fluid" src="{{ $category->category_image }}" alt="">
+                            </div>
+                            <div class="flex-fill pl-3">
+                                <h6>{{ $category->name ?? 'Category Name' }}</h6>
+                                <small class="text-body">{{ $category->products_count ?? '' }} Products</small>
+                            </div>
                         </div>
-                        <div class="flex-fill pl-3">
-                            <h6>{{ $category->name ?? 'Category Name' }}</h6>
-                            <small class="text-body">Products</small>
-                        </div>
-                    </div>
-                </a>
-            </div>
+
+                    </a>
+                </div>
             @endforeach
-
-
         </div>
     </div>
+
     <!-- Categories End -->
 
 
-    <!-- Products Start -->
+    <!--recent Products Start -->
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
         <div class="row px-xl-5">
-            @foreach ($products as $product)
+            @foreach ($recent_products as $recent_product)
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
+                    <div class="product-item bg-light mb-4 clickable-card"
+                        data-url="{{ route('product_details', encrypt($recent_product->id)) }}">
+
                         <div class="product-img position-relative overflow-hidden">
                             <img
                                 class="img-fluid w-100"
                                 style="height: 350px; width: 100%; object-fit: contain; background: #fff; padding: 10px;"
-                                src="{{ asset(optional($product->images->first())->image_path ?? 'default-image.jpg') }}"
+                                src="{{ asset(optional($recent_product->images->first())->image_path ?? 'default-image.jpg') }}"
                                 alt=""
                             >
 
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="#"><i class="far fa-heart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-sync-alt"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="#"><i class="fa fa-search"></i></a>
                             </div>
                         </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="{{ route('product_details', encrypt($product->id)) }}">{{ $product->name ?? 'Product Name' }}</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                {{-- <h5>$123.00</h5><h6 class="text-muted ml-2"><del>{{ $product->small_description }}</del></h6> --}}
-                                <h5>{{ \Illuminate\Support\Str::limit($product->small_description, 20) }}</h5>
 
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
+                        <div class="text-center py-4">
+                            <h6 class="text-decoration-none text-truncate">
+                                {{ $recent_product->name ?? 'Product Name' }}
+                            </h6>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>{{ \Illuminate\Support\Str::limit($recent_product->small_description, 20) }}</h5>
                             </div>
                         </div>
+
                     </div>
                 </div>
-            @endforeach
 
+            @endforeach
 
         </div>
     </div>
@@ -208,16 +209,22 @@
 
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Featured Products</span>
+        </h2>
+
         <div class="row px-xl-5">
-            @foreach ($recent_products as $recent_product)
+            @foreach ($products as $product)
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
+
+                    <div class="product-item bg-light mb-4 clickable-card"
+                        data-url="{{ route('product_details', encrypt($product->id)) }}">
+
                         <div class="product-img position-relative overflow-hidden">
                             <img
                                 class="img-fluid w-100"
                                 style="height: 350px; width: 100%; object-fit: contain; background: #fff; padding: 10px;"
-                                src="{{ asset(optional($recent_product->images->first())->image_path ?? 'default-image.jpg') }}"
+                                src="{{ asset(optional($product->images->first())->image_path ?? 'default-image.jpg') }}"
                                 alt=""
                             >
 
@@ -228,12 +235,16 @@
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                             </div>
                         </div>
+
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="{{ route('product_details', encrypt($recent_product->id)) }}">{{ $recent_product->name ?? 'Product Name' }}</a>
+                            <h6 class="h6 text-decoration-none text-truncate">
+                                {{ $product->name ?? 'Product Name' }}
+                            </h6>
+
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                {{-- <h5>$123.00</h5><h6 class="text-muted ml-2"><del>{{ $product->small_description }}</del></h6> --}}
                                 <h5>{{ \Illuminate\Support\Str::limit($product->small_description, 20) }}</h5>
                             </div>
+
                             <div class="d-flex align-items-center justify-content-center mb-1">
                                 <small class="fa fa-star text-primary mr-1"></small>
                                 <small class="fa fa-star text-primary mr-1"></small>
@@ -242,13 +253,15 @@
                                 <small class="fa fa-star text-primary mr-1"></small>
                                 <small>(99)</small>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
             @endforeach
-
         </div>
     </div>
+
     <!-- Products End -->
 
 
@@ -289,3 +302,15 @@
 
 
 @endsection
+@push('js')
+<script>
+    $(document).on('click', '.clickable-card', function (e) {
+    // prevent action buttons from triggering the click
+    if (!$(e.target).closest('.product-action').length) {
+        window.location.href = $(this).data('url');
+    }
+});
+
+</script>
+
+@endpush

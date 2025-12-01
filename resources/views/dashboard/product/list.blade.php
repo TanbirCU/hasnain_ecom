@@ -14,6 +14,7 @@
                             <tr>
                                 <th>Serial</th>
                                 <th>Product Name</th>
+                                <th>Product Code</th>
                                 <th>Category</th>
                                 <th>Purchase Price</th>
                                 <th>Selling Price</th>
@@ -28,6 +29,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $product->name }}</td>
+                                    <td>{{ $product->product_code ?? '' }}</td>
                                     <td>{{ $product->category->name  }}</td>
                                     <td>{{ $product->purchase_price }}</td>
                                     <td>{{ $product->selling_price }}</td>

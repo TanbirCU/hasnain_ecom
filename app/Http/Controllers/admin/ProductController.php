@@ -85,6 +85,12 @@ class ProductController extends Controller
                 'description'        => $request->description,
                 'status'             => $request->status,
             ]);
+            $product_code = 'PR-' . str_pad($product->id, 6, '0', STR_PAD_LEFT);
+
+            // Save it
+            $product->update([
+                'product_code' => $product_code,
+            ]);
             if ($request->has('color_id')) {
                 $product->colors()->sync($request->color_id);
             }
@@ -203,7 +209,10 @@ class ProductController extends Controller
 
         try {
             $product = Product::findOrFail($id);
-
+            if (empty($product->product_code)) {
+                $product_code = 'PR-' . str_pad($product->id, 6, '0', STR_PAD_LEFT);
+                $product->product_code = $product_code;
+            }
             // Update product details
             $product->update([
                 'category_id' => $request->category_id,

@@ -227,146 +227,146 @@
 
 @push('js')
 <script>
-$('select[name="color_id[]"]').select2({
-    placeholder: "Select Color",
-    allowClear: true
-});
+    $('select[name="color_id[]"]').select2({
+        placeholder: "Select Color",
+        allowClear: true
+    });
 
-$('select[name="size_id[]"]').select2({
-    placeholder: "Select Size",
-    allowClear: true
-});
+    $('select[name="size_id[]"]').select2({
+        placeholder: "Select Size",
+        allowClear: true
+    });
 
-Dropzone.autoDiscover = false;
+    Dropzone.autoDiscover = false;
 
-$(document).ready(function () {
-    let deletedImages = [];
+    $(document).ready(function () {
+        let deletedImages = [];
 
-    // Initialize Select2
-    $('.select2').select2({ width: '100%', placeholder: 'Select an option', allowClear: true });
+        // Initialize Select2
+        $('.select2').select2({ width: '100%', placeholder: 'Select an option', allowClear: true });
 
-    // Store original subcategory options
-    const originalSubCategories = $('#sub_category_id option[data-category]').clone();
+        // Store original subcategory options
+        const originalSubCategories = $('#sub_category_id option[data-category]').clone();
 
-    // Category change event
-    $('#category_id').on('change', function () {
-        const categoryId = $(this).val();
-        const $subCategory = $('#sub_category_id');
+        // Category change event
+        $('#category_id').on('change', function () {
+            const categoryId = $(this).val();
+            const $subCategory = $('#sub_category_id');
 
-        // Clear current options
-        $subCategory.empty();
+            // Clear current options
+            $subCategory.empty();
 
-        if (categoryId) {
-            // Filter subcategories by selected category
-            const filteredSubCategories = originalSubCategories.filter(function() {
-                return $(this).data('category') == categoryId;
-            });
-
-            if (filteredSubCategories.length > 0) {
-                // Enable and populate subcategory dropdown
-                $subCategory.prop('disabled', false)
-                    .append('<option value="">Select Sub Category</option>')
-                    .append(filteredSubCategories.clone());
-
-                // Reinitialize Select2 for subcategory
-                $subCategory.select2({
-                    width: '100%',
-                    placeholder: 'Select Sub Category',
-                    allowClear: true
+            if (categoryId) {
+                // Filter subcategories by selected category
+                const filteredSubCategories = originalSubCategories.filter(function() {
+                    return $(this).data('category') == categoryId;
                 });
-            } else {
-                // No subcategories found
-                $subCategory.prop('disabled', true)
-                    .append('<option value="" disabled selected>No Sub Category Found</option>');
 
-                $subCategory.select2({
-                    width: '100%',
-                    placeholder: 'No Sub Category Found'
+                if (filteredSubCategories.length > 0) {
+                    // Enable and populate subcategory dropdown
+                    $subCategory.prop('disabled', false)
+                        .append('<option value="">Select Sub Category</option>')
+                        .append(filteredSubCategories.clone());
+
+                    // Reinitialize Select2 for subcategory
+                    $subCategory.select2({
+                        width: '100%',
+                        placeholder: 'Select Sub Category',
+                        allowClear: true
+                    });
+                } else {
+                    // No subcategories found
+                    $subCategory.prop('disabled', true)
+                        .append('<option value="" disabled selected>No Sub Category Found</option>');
+
+                    $subCategory.select2({
+                        width: '100%',
+                        placeholder: 'No Sub Category Found'
+                    });
+                }
+            } else {
+                // No category selected
+                $subCategory.prop('disabled', true)
+                    .append('<option value="" selected>Select a category first</option>');
+            }
+
+            $subCategory.trigger('change');
+        });
+
+        // Summernote
+        $('#summernote').summernote({
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+
+        // Delete existing image
+        $(document).on('click', '.delete-existing-image', function() {
+            let imageId = $(this).data('id');
+            let wrapper = $(this).closest('.existing-image-wrapper');
+
+            if(confirm('Are you sure you want to delete this image?')) {
+                deletedImages.push(imageId);
+                $('#deleted_images').val(deletedImages.join(','));
+                wrapper.fadeOut(300, function() {
+                    $(this).remove();
                 });
             }
-        } else {
-            // No category selected
-            $subCategory.prop('disabled', true)
-                .append('<option value="" selected>Select a category first</option>');
-        }
+        });
 
-        $subCategory.trigger('change');
-    });
+        // Initialize Dropzone
+        let myDropzone = new Dropzone("#image-preview-dropzone", {
+            url: "{{ route('admin.product.update', $product->id) }}",
+            paramName: "images[]",
+            maxFilesize: 5,
+            acceptedFiles: "image/*",
+            uploadMultiple: true,
+            addRemoveLinks: true,
+            parallelUploads: 5,
+            autoProcessQueue: false,
+            dictDefaultMessage: "Drop images here or click to upload",
+            maxFiles: 4
+        });
 
-    // Summernote
-    $('#summernote').summernote({
-        height: 300,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
+        // Prevent more than 4 images
+        myDropzone.on("maxfilesexceeded", function(file) {
+            this.removeFile(file);
+            toastr.error("You can upload a maximum of 4 images only.");
+        });
 
-    // Delete existing image
-    $(document).on('click', '.delete-existing-image', function() {
-        let imageId = $(this).data('id');
-        let wrapper = $(this).closest('.existing-image-wrapper');
+        // Submit form + images together
+        $("#submitProduct").click(function (e) {
+            e.preventDefault();
 
-        if(confirm('Are you sure you want to delete this image?')) {
-            deletedImages.push(imageId);
-            $('#deleted_images').val(deletedImages.join(','));
-            wrapper.fadeOut(300, function() {
-                $(this).remove();
+            if (myDropzone.getQueuedFiles().length > 0) {
+                myDropzone.processQueue();
+            } else {
+                $("#ProductEdit")[0].submit();
+            }
+        });
+
+        myDropzone.on("sendingmultiple", function(file, xhr, formData) {
+            // Append other form data
+            $('#ProductEdit').serializeArray().forEach(function(field) {
+                formData.append(field.name, field.value);
             });
-        }
-    });
+        });
 
-    // Initialize Dropzone
-    let myDropzone = new Dropzone("#image-preview-dropzone", {
-        url: "{{ route('admin.product.update', $product->id) }}",
-        paramName: "images[]",
-        maxFilesize: 5,
-        acceptedFiles: "image/*",
-        uploadMultiple: true,
-        addRemoveLinks: true,
-        parallelUploads: 5,
-        autoProcessQueue: false,
-        dictDefaultMessage: "Drop images here or click to upload",
-        maxFiles: 4
-    });
+        myDropzone.on("successmultiple", function(files, response) {
+            toastr.success("Product updated successfully!");
+            window.location.href = "{{ route('admin.product.index') }}";
+        });
 
-    // Prevent more than 4 images
-    myDropzone.on("maxfilesexceeded", function(file) {
-        this.removeFile(file);
-        toastr.error("You can upload a maximum of 4 images only.");
-    });
-
-    // Submit form + images together
-    $("#submitProduct").click(function (e) {
-        e.preventDefault();
-
-        if (myDropzone.getQueuedFiles().length > 0) {
-            myDropzone.processQueue();
-        } else {
-            $("#ProductEdit")[0].submit();
-        }
-    });
-
-    myDropzone.on("sendingmultiple", function(file, xhr, formData) {
-        // Append other form data
-        $('#ProductEdit').serializeArray().forEach(function(field) {
-            formData.append(field.name, field.value);
+        myDropzone.on("error", function(file, errorMessage) {
+            toastr.error("Error uploading images: " + errorMessage);
         });
     });
-
-    myDropzone.on("successmultiple", function(files, response) {
-        toastr.success("Product updated successfully!");
-        window.location.href = "{{ route('admin.product.index') }}";
-    });
-
-    myDropzone.on("error", function(file, errorMessage) {
-        toastr.error("Error uploading images: " + errorMessage);
-    });
-});
 </script>
 @endpush
