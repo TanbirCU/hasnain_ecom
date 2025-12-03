@@ -86,7 +86,6 @@ class ProductController extends Controller
                 'status'             => $request->status,
             ]);
             $product_code = 'PR-' . str_pad($product->id, 6, '0', STR_PAD_LEFT);
-
             // Save it
             $product->update([
                 'product_code' => $product_code,

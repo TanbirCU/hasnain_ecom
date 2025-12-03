@@ -56,7 +56,7 @@ class DashboardController extends Controller
     }
     public function orderDetails($order_id)
     {
-        $data['order'] = Order::with('orderItems')->findOrFail($order_id);
+        $data['order'] = Order::with('orderItems','orderItems.productDetails:id,product_code')->findOrFail($order_id);
         return view('dashboard.orders.order_details', $data);
     }
     public function updateStatus(Request $request, $id)
@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
         return back()->with('success', 'Order status updated successfully!');
     }
-    
+
 
     public function downloadPDF($id)
     {

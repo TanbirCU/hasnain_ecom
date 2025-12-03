@@ -16,7 +16,7 @@
                     </div>
 
                     <!-- PDF Download -->
-                    <a href="" 
+                    <a href=""
                         class="btn btn-sm btn-danger">
                         <i class="fas fa-file-pdf"></i> Download PDF
                     </a>
@@ -27,29 +27,29 @@
                 <!-- Customer Details -->
                 <h5 class="mb-3">Customer Information</h5>
                 <div class="row mb-4">
-                    
+
                     <div class="col-md-4">
-                        <strong>Name:</strong> 
+                        <strong>Name:</strong>
                         <p>{{ $order->name }}</p>
                     </div>
                     <div class="col-md-4">
-                        <strong>Phone:</strong> 
+                        <strong>Phone:</strong>
                         <p>{{ $order->mobile }}</p>
                     </div>
                     <div class="col-md-4">
-                        <strong>Email:</strong> 
+                        <strong>Email:</strong>
                         <p>{{ $order->email }}</p>
                     </div>
                     <div class="col-md-4">
-                        <strong>District:</strong> 
+                        <strong>District:</strong>
                         <p>{{ $order->district }}</p>
                     </div>
                     <div class="col-md-4">
-                        <strong>Upazila:</strong> 
+                        <strong>Upazila:</strong>
                         <p>{{ $order->upzilla }}</p>
                     </div>
                     <div class="col-md-4">
-                        <strong>Union:</strong> 
+                        <strong>Union:</strong>
                         <p>{{ $order->union }}</p>
                     </div>
                 </div>
@@ -58,16 +58,16 @@
                 <h5 class="mb-3">Order Information</h5>
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <strong>Order ID:</strong> 
+                        <strong>Order ID:</strong>
                         <p>#{{ $order->user_order_id }}</p>
                     </div>
-                    
+
                     <div class="col-md-4">
-                        <strong>Date:</strong> 
+                        <strong>Date:</strong>
                         <p>{{ $order->created_at->format('d M Y') }}</p>
                     </div>
                     <div class="col-md-4">
-                        <strong>Status:</strong> 
+                        <strong>Status:</strong>
                         @if($order->status == 0)
                             <span class="badge bg-warning text-dark">Pending</span>
                         @elseif($order->status == 1)
@@ -93,7 +93,11 @@
                         <tbody>
                             @foreach($order->orderItems as $item)
                                 <tr>
-                                    <td>{{ $item->product_name }}</td>
+                                    <td>
+                                        {{ $item->product_name }}
+                                        [{{ $item->productDetails->product_code ?? 'product_id=' . $item->product_id }}]
+                                    </td>
+
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ number_format($item->price, 2) }}</td>
                                     <td>{{ number_format($item->total, 2) }}</td>
@@ -108,12 +112,12 @@
                     <div class="col-md-4">
                         <ul class="list-group">
                             {{-- <li class="list-group-item d-flex justify-content-between">
-                                <span>Subtotal:</span> 
+                                <span>Subtotal:</span>
                                 <strong>{{ number_format($order->subtotal, 2) }}</strong>
                             </li> --}}
-                            
+
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Grand Total:</span> 
+                                <span>Grand Total:</span>
                                 <strong>{{ number_format($order->grand_total, 2) }}</strong>
                             </li>
                         </ul>
